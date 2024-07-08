@@ -37,7 +37,7 @@ export class FirstFormGroup {
 
 
 export class SecondFormGroup {
-  cedule= new FormControl('', [Validators.required]);
+  cedule= new FormControl('', [Validators.required,Validators.minLength(3),Validators.maxLength(8)]);
   extent= new FormControl('', [Validators.required]);
   address= new FormControl('', [Validators.required]);
   //phone= new FormControl('', [Validators.required]);
@@ -51,6 +51,14 @@ export class ThirdFormGroup {
   access_levels = new FormControl([],[Validators.required]);
   genders = new FormControl([],[Validators.required]);
   hair_colors = new FormControl([],[]);
+  /*state = new FormControl([],[Validators.required]);
+  municipalities= new FormControl('', [Validators.required]);
+  parishes= new FormControl('', []);
+  skin_colors = new FormControl([],[]);
+  civil_statuses = new FormControl([],[Validators.required]);*/
+}
+
+export class FourFormGroup {
   state = new FormControl([],[Validators.required]);
   municipalities= new FormControl('', [Validators.required]);
   parishes= new FormControl('', []);

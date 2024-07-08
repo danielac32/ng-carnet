@@ -51,6 +51,14 @@
       <mat-form-field appearance="fill">
         <mat-label>Cédula</mat-label>
         <input matInput formControlName="cedule" required>
+         <mat-error *ngIf="secondFormGroup.get('cedule')?.hasError('minlength')">
+          Cédula debe tener al menos 3 caracteres
+        </mat-error>
+
+        <mat-error *ngIf="secondFormGroup.get('cedule')?.hasError('maxlength')">
+         Cédula no debe exceder los 8 caracteres
+        </mat-error>
+
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Extensión</mat-label>
@@ -159,7 +167,24 @@
         </mat-select>
         <!--<input matInput formControlName="hair_colors" required>-->
       </mat-form-field>
-      <mat-form-field appearance="fill">
+
+ </mat-card>
+    </form>
+     </mat-card-content>
+</div>
+  </mat-step>
+
+
+
+  <mat-step [stepControl]="fourFormGroup">
+    <div class="login-form">
+ 
+    <mat-card-content>
+    <form [formGroup]="fourFormGroup">
+      <ng-template matStepLabel>Step 4</ng-template>
+      <mat-card>
+     
+     <mat-form-field appearance="fill">
         <mat-label>Color de piel</mat-label>
         <mat-select formControlName="skin_colors">
             @for (s of skin; track s.id) {
@@ -170,6 +195,7 @@
         </mat-select>
         <!--<input matInput formControlName="skin_colors" required>-->
       </mat-form-field>
+      
       <mat-form-field appearance="fill">
         <mat-label>Estado</mat-label>
         <mat-select formControlName="state" required>
@@ -203,11 +229,11 @@
       </mat-form-field>
 
        <div class="upload-container"
-     (drop)="onDrop($event)"
-     (dragover)="onDragOver($event)">
-  <p>Arrastra y suelta una imagen aquí</p>
-  <input type="file" (change)="onFileSelected($event)">
-</div>
+             (drop)="onDrop($event)"
+             (dragover)="onDragOver($event)">
+          <p>Arrastra y suelta una imagen aquí</p>
+          <input type="file" (change)="onFileSelected($event)">
+       </div>
 
       <div>
         <!--<button mat-button matStepperPrevious>Back</button>-->
