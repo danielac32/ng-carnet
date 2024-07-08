@@ -1,0 +1,22 @@
+<div class="login-form">
+  <mat-card>
+    
+    <mat-card-content>
+    	
+      <form [formGroup]="newForm" (ngSubmit)="onSubmit()">
+         	<mat-card-title>Agregar asignaturas</mat-card-title>
+       <mat-form-field>
+				  <mat-label>Asignaturas</mat-label>
+				  <mat-select  multiple formControlName="materias" required>
+				    @for (topping of Materias; track topping) {
+				      <mat-option [value]="topping">{{topping}}</mat-option>
+				    }
+				  </mat-select>
+				</mat-form-field>
+				<mat-card-actions class="action-container">
+	        <button mat-raised-button type="submit" color="primary">Guardar</button>
+	        </mat-card-actions>
+     </form>
+    </mat-card-content>
+  </mat-card>
+</div>

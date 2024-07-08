@@ -1,0 +1,41 @@
+.upload-container {
+  border: 2px dashed #cccccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.upload-container p {
+  margin: 0;
+}
+
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+
+.login-form {
+ top: 10px;
+  max-width: 500px; /* Establece un ancho máximo para el contenedor */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  padding: 20px; /* Agrega un poco de espacio alrededor del contenedor */
+}
+
+ 
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px; /* Adjust width as needed */
+}
+
+.action-container {
+  display: flex;
+  justify-content: center;
+}

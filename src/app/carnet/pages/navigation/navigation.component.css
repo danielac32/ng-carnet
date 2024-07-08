@@ -1,0 +1,41 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 150px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.content-container {
+  margin: 10% auto; /* 10% margin from top, auto for horizontal centering */
+  width: 80%; /* 80% of the container width, giving 10% margin on the left and right */
+}
+
+.background-container {
+    position: relative; /* Establece la posición relativa para poder posicionar elementos hijos de forma absoluta */
+}
+
+.background-image {
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    position: absolute; /* Establece la posición absoluta para que la imagen se superponga */
+    top: 60px; /* Coloca la imagen en la esquina superior izquierda */
+    left: 0;
+    width: 100%; /* Haz que la imagen cubra todo el contenedor */
+    height: 100%;
+    z-index: -1; /* Coloca la imagen detrás del contenido principal */
+    /* Ajusta el fondo como desees, por ejemplo: */
+    }

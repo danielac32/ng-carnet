@@ -1,0 +1,13 @@
+
+export interface Charge {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChargeResponse {
+  charge: Charge[];
+}
+
+

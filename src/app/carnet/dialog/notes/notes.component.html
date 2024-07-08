@@ -1,0 +1,71 @@
+@if(data.read){
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Nombre de la Asignatura Column -->
+    <ng-container matColumnDef="Asignatura">
+      <th mat-header-cell *matHeaderCellDef> Asignatura </th>
+      <td mat-cell *matCellDef="let materias"> {{materias.name}} </td>
+    </ng-container>
+
+    <!-- Nota 1 Column -->
+    <ng-container matColumnDef="nota1">
+      <th mat-header-cell *matHeaderCellDef> Nota 1 </th>
+      <td mat-cell *matCellDef="let materias"> 
+        <a (click)="save2(materias.notas[0])">{{materias.notas[0]?.valor}}</a>
+      </td>
+
+    </ng-container>
+
+    <!-- Nota 2 Column -->
+    <ng-container matColumnDef="nota2">
+      <th mat-header-cell *matHeaderCellDef> Nota 2 </th>
+      <td mat-cell *matCellDef="let materias"> 
+        <a (click)="save2(materias.notas[1])">{{materias.notas[1]?.valor}}</a> 
+      </td>
+    </ng-container>
+
+    <!-- Nota 3 Column -->
+    <ng-container matColumnDef="nota3">
+      <th mat-header-cell *matHeaderCellDef> Nota 3 </th>
+      <td mat-cell *matCellDef="let materias"> 
+        <a (click)="save2(materias.notas[2])">{{materias.notas[2]?.valor}} </a>
+      </td>
+    </ng-container>
+    
+    <!-- <ng-container matColumnDef="Actualizar">
+    <th mat-header-cell *matHeaderCellDef>  </th>
+    <td mat-cell *matCellDef="let materias">
+      <button mat-raised-button color="primary" (click)="save(materias.id,materias.cursoId,materias.notas)">Editar</button>
+    </td>
+  </ng-container>-->
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+}
+@else{
+  
+}
+
+<!--
+  nota1: number;
+nota2: number;
+nota3: number;
+
+<td mat-cell *matCellDef="let materias">
+  <input type="number" [(ngModel)]="nota1" [value]="materias.notas[0]?.valor">
+</td>
+
+<td mat-cell *matCellDef="let materias">
+  <input type="number" [(ngModel)]="nota2" [value]="materias.notas[1]?.valor">
+</td>
+
+<td mat-cell *matCellDef="let materias">
+  <input type="number" [(ngModel)]="nota3" [value]="materias.notas[2]?.valor">
+</td>
+
+<td mat-cell *matCellDef="let materias">
+  <button mat-raised-button color="primary" (click)="save(materias.id, materias.cursoId)">Guardar</button>
+</td>
+
+
+-->

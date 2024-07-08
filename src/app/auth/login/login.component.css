@@ -1,0 +1,18 @@
+.login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px; /* Adjust width as needed */
+}
+
+.action-container {
+  display: flex;
+  justify-content: center;
+}

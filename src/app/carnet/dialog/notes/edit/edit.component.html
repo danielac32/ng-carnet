@@ -1,0 +1,18 @@
+<div class="login-form">
+  <mat-card>
+    
+    <mat-card-content>
+    	
+      <form [formGroup]="newForm" (ngSubmit)="onSubmit()">
+         	<mat-card-title>Nota</mat-card-title>
+       <mat-form-field>
+                <mat-label>valor</mat-label>
+                    <input matInput type="number" formControlName="nota" required>
+                </mat-form-field>
+				<mat-card-actions class="action-container">
+	        <button mat-raised-button type="submit" color="primary">Guardar</button>
+	        </mat-card-actions>
+     </form>
+    </mat-card-content>
+  </mat-card>
+</div>
