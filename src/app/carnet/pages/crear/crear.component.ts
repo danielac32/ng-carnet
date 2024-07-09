@@ -45,7 +45,7 @@ import {Civil} from '../../interface/civil.interface'
 import {CivilService} from '../services/civil.service'
 import {Carnet} from '../../interface/carnet.interface'
  
-
+import { Router,NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-crear',
@@ -114,7 +114,7 @@ public uniqueSuffix?:string;
   private skinColorService=inject(SkinColorService);
   private stateService=inject(StateService);
   private civilService=inject(CivilService);
-  
+  private router=inject(Router);
  
 
 
@@ -206,7 +206,13 @@ public uniqueSuffix?:string;
 
   onSubmit() {
 
-    if (!this.firstFormGroup.valid && !this.secondFormGroup.valid && !this.thirdFormGroup.valid && !this.fourFormGroup.valid) return;
+    if (!this.firstFormGroup.valid ||
+        !this.secondFormGroup.valid || 
+        !this.thirdFormGroup.valid || 
+        !this.fourFormGroup.valid) {
+        this.openSnackBar("Algunos campos son requeridos", 'Cerrar');
+        return;
+    }
 
     const {name,lastname,expiration,note} = this.firstFormGroup.value;
     const {cedule,extent,address,cellpone} = this.secondFormGroup.value;
@@ -252,15 +258,23 @@ public uniqueSuffix?:string;
             if (this.selectedFile && cedule){
                 this.carnetService.sendFile(this.selectedFile ,cedule).subscribe(response => {
                    console.log(response)
+                   this.openSnackBar("Carnet creado", 'Cerrar');
+                   window.location.reload();//this.router.navigate(['/carnet/crear']);
                 }, error => {
-                   console.error('Error en la solicitud :', error);
+                   console.error('Error en la solicitud :sendFile ', error);
+                   this.openSnackBar(error.error.message, 'Cerrar');
+                   return;
                 });
             }
         }, error => {
-          console.error('Error en la solicitud :', error);
+          console.error('Error en la solicitud :create ', error);
+          this.openSnackBar(error.error.message, 'Cerrar');
+          return;
         });
     } else {
        console.error('No file selected');
+       this.openSnackBar("Seleccione una imagen", 'Cerrar');
+       return;
     }
 
     
