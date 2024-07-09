@@ -53,7 +53,7 @@ export class FirstFormGroup {
 
 export class SecondFormGroup {
   cedule= new FormControl('', [Validators.required,Validators.minLength(3),Validators.maxLength(8),CustomValidator.numeric]);
-  extent= new FormControl('', [Validators.required,Validators.minLength(4),Validators.maxLength(4),CustomValidator.numeric]);
+  //extent= new FormControl('', [Validators.required,Validators.minLength(4),Validators.maxLength(4),CustomValidator.numeric]);
   address= new FormControl('', [Validators.required]);
   //phone= new FormControl('', [Validators.required]);
   cellpone= new FormControl('', [Validators.required,CustomValidator.numeric,Validators.minLength(10)]);
@@ -63,16 +63,16 @@ export class ThirdFormGroup {
   department = new FormControl([],[Validators.required]);
   charge = new FormControl([],[Validators.required]);
   //type_creations= new FormControl('', [Validators.required]);
-  textures = new FormControl([],[Validators.required]);
+  //textures = new FormControl([],[Validators.required]);
   access_levels = new FormControl([],[Validators.required]);
-  genders = new FormControl([],[Validators.required]);
-  hair_colors = new FormControl([],[]);
+  //genders = new FormControl([],[Validators.required]);
+  //hair_colors = new FormControl([],[]);
 }
 
 export class FourFormGroup {
   state = new FormControl([],[Validators.required]);
   municipalities= new FormControl('', [Validators.required]);
   parishes= new FormControl('', []);
-  skin_colors = new FormControl([],[]);
-  civil_statuses = new FormControl([],[Validators.required]);
+  //skin_colors = new FormControl([],[]);
+  //civil_statuses = new FormControl([],[Validators.required]);
 }

@@ -63,6 +63,7 @@
         </mat-error>
 
       </mat-form-field>
+      <!--
       <mat-form-field appearance="fill">
         <mat-label>Extensión</mat-label>
         <input matInput formControlName="extent" required>
@@ -78,7 +79,8 @@
          Extensión debe ser númerico
         </mat-error>
 
-      </mat-form-field>
+      </mat-form-field>-->
+
       <mat-form-field appearance="fill">
         <mat-label>Dirección</mat-label>
         <textarea matInput formControlName="address" required></textarea>
@@ -144,6 +146,8 @@
         <mat-label>Type Creations</mat-label>
         <input matInput formControlName="type_creations" required>
       </mat-form-field>-->
+
+      <!--
       <mat-form-field appearance="fill">
         <mat-label>Contextura</mat-label>
         <mat-select formControlName="textures" required>
@@ -153,8 +157,9 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-        <!--<input matInput formControlName="textures" required>-->
-      </mat-form-field>
+      </mat-form-field>-->
+
+
       <mat-form-field appearance="fill">
         <mat-label>Nivel de Acceso</mat-label>
         <mat-select formControlName="access_levels" required>
@@ -166,6 +171,8 @@
         </mat-select>
         <!--<input matInput formControlName="access_levels" required>-->
       </mat-form-field>
+
+<!--
       <mat-form-field appearance="fill">
         <mat-label>Sexo</mat-label>
         <mat-select formControlName="genders" required>
@@ -175,9 +182,10 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-        <!--<input matInput formControlName="genders" required>-->
       </mat-form-field>
-      <mat-form-field appearance="fill">
+
+
+        <mat-form-field appearance="fill">
         <mat-label>Color de Cabello</mat-label>
         <mat-select formControlName="hair_colors">
             @for (h of hair; track h.id) {
@@ -186,8 +194,8 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-        <!--<input matInput formControlName="hair_colors" required>-->
       </mat-form-field>
+    -->
 
  </mat-card>
     </form>
@@ -205,7 +213,8 @@
       <ng-template matStepLabel>Step 4</ng-template>
       <mat-card>
      
-     <mat-form-field appearance="fill">
+     <!--
+      <mat-form-field appearance="fill">
         <mat-label>Color de piel</mat-label>
         <mat-select formControlName="skin_colors">
             @for (s of skin; track s.id) {
@@ -214,9 +223,8 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-        <!--<input matInput formControlName="skin_colors" required>-->
       </mat-form-field>
-      
+      -->
       <mat-form-field appearance="fill">
         <mat-label>Estado</mat-label>
         <mat-select formControlName="state" required>
@@ -226,8 +234,9 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-        <!--<input matInput formControlName="state" required>-->
       </mat-form-field>
+
+
       <mat-form-field appearance="fill">
         <mat-label>Municipio</mat-label>
         <input matInput formControlName="municipalities" required>
@@ -237,7 +246,8 @@
         <input matInput formControlName="parishes">
       </mat-form-field>
     
-      <mat-form-field appearance="fill">
+     <!--
+       <mat-form-field appearance="fill">
         <mat-label>Estado Civil</mat-label>
         <mat-select formControlName="civil_statuses" required>
             @for (c of civil; track c.id) {
@@ -246,8 +256,8 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-        <!--<input matInput formControlName="civil_statuses" required>-->
       </mat-form-field>
+    -->
 
        <div class="upload-container"
              (drop)="onDrop($event)"

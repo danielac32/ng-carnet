@@ -7,9 +7,9 @@ export interface Carnet {
     expiration: Date;
     note?: string;
     cedule?: string;
-    extent?: string;
+    //extent?: string;
     address?: string;
-    phone?: string;
+    //phone?: string;
     cellpone?: string;
     photo?: string;
     qr?: string;
@@ -17,16 +17,16 @@ export interface Carnet {
     department?: number;
     charge?: number;
     type_creations: number;
-    textures?: number;
-    status?: number;
+    //textures?: number;
+    status?: number;// activo = 1, Inactivo = 2  
     access_levels?: number;
-    genders?: number;
-    hair_colors?: number;
+    //genders?: number;
+    //hair_colors?: number;
     state?: number;
     municipalities?: string;
     parishes?: string;
-    skin_colors?: number;
-    civil_statuses?: number;
+    //skin_colors?: number;
+    //civil_statuses?: number;
     created_at?: Date;
     updated_at?: Date;
 }

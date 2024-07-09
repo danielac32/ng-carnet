@@ -26,23 +26,23 @@ import {
 import {MatStepperModule} from '@angular/material/stepper';
 import {CarnetService} from '../services/carnet.service'
 import {DepartmentService} from '../services/department.service'
-import {TextureService} from '../services/texture.service'
+//import {TextureService} from '../services/texture.service'
 import {Department} from '../../interface/department.interface'
-import {Texture} from '../../interface/texture.interface'
+//import {Texture} from '../../interface/texture.interface'
 import {Charge} from '../../interface/charge.interface'
 import {ChargeService} from '../services/charge.service'
 import {AccessService} from '../services/access.service'
 import {Access} from '../../interface/access.interface'
-import {GendersService} from '../services/genders.service'
-import {Gender} from '../../interface/genders.interface'
-import {HairColor} from '../../interface/hair-color.interface'
-import {HairColorService} from '../services/hair-color.service'
-import {SkinColor} from '../../interface/skin-color.interface'
-import {SkinColorService} from '../services/skin-color.service'
+//import {GendersService} from '../services/genders.service'
+//import {Gender} from '../../interface/genders.interface'
+//import {HairColor} from '../../interface/hair-color.interface'
+//import {HairColorService} from '../services/hair-color.service'
+//import {SkinColor} from '../../interface/skin-color.interface'
+//import {SkinColorService} from '../services/skin-color.service'
 import {State} from '../../interface/state.interface'
 import {StateService} from '../services/state.service'
-import {Civil} from '../../interface/civil.interface'
-import {CivilService} from '../services/civil.service'
+//import {Civil} from '../../interface/civil.interface'
+//import {CivilService} from '../services/civil.service'
 import {Carnet} from '../../interface/carnet.interface'
  
 import { Router,NavigationExtras } from '@angular/router';
@@ -84,14 +84,14 @@ selectedFile?: File;
 
 
 public department?: Department[] = []
-public texture?: Texture[] = []
+//public texture?: Texture[] = []
 public charge?: Charge[] = []
 public access?: Access[] = []
-public genders?: Gender[]=[]
-public hair?: HairColor[]=[]
-public skin?: SkinColor[]=[]
+//public genders?: Gender[]=[]
+//public hair?: HairColor[]=[]
+//public skin?: SkinColor[]=[]
 public states?: State[]=[]
-public civil?: Civil[]=[]
+//public civil?: Civil[]=[]
 public uniqueSuffix?:string;
 
 
@@ -106,14 +106,14 @@ public uniqueSuffix?:string;
   private _snackBar=inject(MatSnackBar);
   private carnetService=inject(CarnetService);
   private departmentService=inject(DepartmentService);
-  private textureService=inject(TextureService);
+  //private textureService=inject(TextureService);
   private chargeService=inject(ChargeService);
   private accessService=inject(AccessService);
-  private gendersService=inject(GendersService);
-  private hairColorService=inject(HairColorService);
-  private skinColorService=inject(SkinColorService);
+  //private gendersService=inject(GendersService);
+  //private hairColorService=inject(HairColorService);
+  //private skinColorService=inject(SkinColorService);
   private stateService=inject(StateService);
-  private civilService=inject(CivilService);
+  //private civilService=inject(CivilService);
   private router=inject(Router);
  
 
@@ -127,14 +127,14 @@ public uniqueSuffix?:string;
       console.error('Error en la solicitud :', error);
       
     });
-    this.textureService.findAll().subscribe(({texture}) => {
+    /*this.textureService.findAll().subscribe(({texture}) => {
        //console.log(response,"ok")
        this.texture=texture;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
       
-    });
+    });*/
     this.chargeService.findAll().subscribe(({charge}) => {
        //console.log(response,"ok")
        this.charge=charge;
@@ -151,30 +151,30 @@ public uniqueSuffix?:string;
       console.error('Error en la solicitud :', error);
       
     });
-    this.gendersService.findAll().subscribe(({genders}) => {
+   /* this.gendersService.findAll().subscribe(({genders}) => {
        //console.log(response,"ok")
        this.genders=genders;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
       
-    });
-    this.hairColorService.findAll().subscribe(({hair}) => {
+    });*/
+    /*this.hairColorService.findAll().subscribe(({hair}) => {
        //console.log(response,"ok")
        this.hair=hair;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
       
-    });
-    this.skinColorService.findAll().subscribe(({skin}) => {
+    });*/
+    /*this.skinColorService.findAll().subscribe(({skin}) => {
        //console.log(response,"ok")
        this.skin=skin;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
       
-    });
+    });*/
     this.stateService.findAll().subscribe(({state}) => {
        //console.log(response,"ok")
        this.states=state;
@@ -183,14 +183,14 @@ public uniqueSuffix?:string;
       console.error('Error en la solicitud :', error);
       
     });
-    this.civilService.findAll().subscribe(({statuses}) => {
+    /*this.civilService.findAll().subscribe(({statuses}) => {
        //console.log(response,"ok")
        this.civil=statuses;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
       
-    });
+    });*/
   }
 
   openSnackBar(message: string, action: string) {
@@ -205,6 +205,42 @@ public uniqueSuffix?:string;
 
 
   onSubmit() {
+     
+/*
+    const exampleCarnet1: Carnet = {
+        name: 'daniel',
+        lastname: 'quintero',
+        //card_code: '1234567890',
+        expiration: new Date( ),
+        note: "",
+
+        cedule: '87878877887',
+        //extent: extent?? '',
+        address: 'los teques',
+      // phone: '555-1234',
+        cellpone: '04142688881',
+        //photo: this.uniqueSuffix as string,
+        //qr: 'https://example.com/qr-code.jpg',
+        
+        department: 1,
+        charge: 1,
+        type_creations: 1,// ingreso = 1, Renovación = 2 , Extravío =  3
+        //textures: Number(textures),
+        status: 1,// activo = 1, Inactivo = 2  
+        access_levels: 1,
+        //genders: Number(genders),
+        //hair_colors: Number(hair_colors),
+        state: 1,
+        municipalities: '',
+        parishes: '',
+        //skin_colors: Number(skin_colors),
+        //civil_statuses: Number(civil_statuses),
+        created_at: new Date(),
+        //updated_at: new Date('2023-06-27')
+    }*/
+ 
+
+
 
     if (!this.firstFormGroup.valid ||
         !this.secondFormGroup.valid || 
@@ -215,9 +251,9 @@ public uniqueSuffix?:string;
     }
 
     const {name,lastname,expiration,note} = this.firstFormGroup.value;
-    const {cedule,extent,address,cellpone} = this.secondFormGroup.value;
-    const {department,charge,textures,access_levels,genders,hair_colors} = this.thirdFormGroup.value;
-    const {state,municipalities,parishes,skin_colors,civil_statuses}= this.fourFormGroup.value;
+    const {cedule/*,extent*/,address,cellpone} = this.secondFormGroup.value;
+    const {department,charge/*,textures*/,access_levels/*,genders,hair_colors*/} = this.thirdFormGroup.value;
+    const {state,municipalities,parishes/*,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
 
 
     const exampleCarnet: Carnet = {
@@ -228,7 +264,7 @@ public uniqueSuffix?:string;
         note: note?? '',
 
         cedule: cedule?? '',
-        extent: extent?? '',
+        //extent: extent?? '',
         address: address?? '',
       // phone: '555-1234',
         cellpone: cellpone?? '',
@@ -238,16 +274,16 @@ public uniqueSuffix?:string;
         department: Number(department),
         charge: Number(charge),
         type_creations: 1,// ingreso = 1, Renovación = 2 , Extravío =  3
-        textures: Number(textures),
+        //textures: Number(textures),
         status: 1,// activo = 1, Inactivo = 2  
         access_levels: Number(access_levels),
-        genders: Number(genders),
-        hair_colors: Number(hair_colors),
+        //genders: Number(genders),
+        //hair_colors: Number(hair_colors),
         state: Number(state),
         municipalities: municipalities?? '',
         parishes: parishes?? '',
-        skin_colors: Number(skin_colors),
-        civil_statuses: Number(civil_statuses),
+        //skin_colors: Number(skin_colors),
+        //civil_statuses: Number(civil_statuses),
         created_at: new Date(),
         //updated_at: new Date('2023-06-27')
     }
