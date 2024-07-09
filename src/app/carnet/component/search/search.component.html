@@ -1,0 +1,24 @@
+<mat-card-content>
+<mat-card>
+<mat-card-title>Carnet</mat-card-title>
+<form [formGroup]="ceduleFormGroup">
+		<mat-form-field>
+		<mat-label>Cedula</mat-label>
+			 <input matInput type="text" formControlName="cedule"required>
+			 <mat-error *ngIf="ceduleFormGroup.get('cedule')?.hasError('minlength')">
+			  Cédula debe tener al menos 3 caracteres
+			 </mat-error>
+
+			 <mat-error *ngIf="ceduleFormGroup.get('cedule')?.hasError('maxlength')">
+			 Cédula no debe exceder los 8 caracteres
+			 </mat-error>
+			 <mat-error *ngIf="ceduleFormGroup.get('cedule')?.hasError('invalidNumber')">
+			 Cédula debe ser númerico
+			 </mat-error>
+		</mat-form-field>
+		<mat-card-actions class="action-container">
+		    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Buscar</button>
+		</mat-card-actions>
+ </form> 
+</mat-card>
+</mat-card-content>
