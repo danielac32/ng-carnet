@@ -40,3 +40,11 @@
   display: flex;
   justify-content: center;
 }
+
+
+.carnet-preview {
+  width: 200px; /* Ajusta el tamaño según sea necesario */
+  height: auto;
+  border: 1px solid #ccc; /* Opcional: agrega un borde para hacer la imagen más visible */
+  border-radius: 5px; /* Opcional: agrega esquinas redondeadas */
+}

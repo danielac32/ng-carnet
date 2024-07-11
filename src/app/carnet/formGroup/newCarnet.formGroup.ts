@@ -52,7 +52,7 @@ export class FirstFormGroup {
 }
 
 export class SecondFormGroup {
-  cedule= new FormControl('', [Validators.required,Validators.minLength(3),Validators.maxLength(8),CustomValidator.numeric]);
+  cedule= new FormControl('', [Validators.required,Validators.minLength(5),CustomValidator.numeric]);
   //extent= new FormControl('', [Validators.required,Validators.minLength(4),Validators.maxLength(4),CustomValidator.numeric]);
   address= new FormControl('', [Validators.required]);
   //phone= new FormControl('', [Validators.required]);

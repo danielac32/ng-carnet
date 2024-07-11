@@ -16,9 +16,32 @@
 			 Cédula debe ser númerico
 			 </mat-error>
 		</mat-form-field>
+
+	 
+		  <div *ngIf="imageUrl">
+		    <img [src]="imageUrl" alt="Carnet" class="carnet-preview">
+		  </div>
+
+
 		<mat-card-actions class="action-container">
-		    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Buscar</button>
+			 @if(imageUrl){
+	    	 
+		    <button mat-raised-button type="submit" color="primary" (click)="download(ceduleFormGroup.get('cedule')?.value?? '')" matTooltip="Descargar"><mat-icon>
+           download
+       </mat-icon> </button>
+			    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" matTooltip="Eliminar"><mat-icon>
+           delete
+       </mat-icon> </button>
+			    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" matTooltip="Actualizar"><mat-icon>
+           update
+       </mat-icon> </button>
+	    }
+		    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" matTooltip="Buscar"><mat-icon>
+           search
+       </mat-icon> </button>
 		</mat-card-actions>
- </form> 
+ </form>
+
 </mat-card>
 </mat-card-content>
+

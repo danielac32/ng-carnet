@@ -17,6 +17,10 @@ import {MatListModule} from '@angular/material/list';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { Router,NavigationExtras } from '@angular/router';
 import {CeduleFormGroup} from '../../formGroup/getCedule.formGroup'
+import {CarnetService} from '../../pages/services/carnet.service'
+
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-search',
@@ -35,12 +39,15 @@ import {CeduleFormGroup} from '../../formGroup/getCedule.formGroup'
       MatDatepickerModule,
       MatListModule,
       MatProgressBarModule,
+      MatTooltipModule,
+      MatIconModule
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
 export class SearchComponent implements OnInit {
 	ceduleFormGroup: FormGroup<CeduleFormGroup>;
+ imageUrl: string | ArrayBuffer | null = null;
 
   private _snackBar=inject(MatSnackBar);
   private router=inject(Router);
@@ -49,6 +56,9 @@ export class SearchComponent implements OnInit {
  constructor(/*private _snackBar: MatSnackBar,*/private http: HttpClient) {
     this.ceduleFormGroup = new FormGroup<CeduleFormGroup>(new CeduleFormGroup());
  }
+
+private carnetService=inject(CarnetService);
+
 
 
   openSnackBar(message: string, action: string) {
@@ -60,11 +70,37 @@ export class SearchComponent implements OnInit {
     });
   }
  
+  showCarnet(cedule: string) {
+    this.carnetService.getCarnetBlob(cedule).subscribe((blob) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageUrl = reader.result;
+      };
+      reader.readAsDataURL(blob);
+    }, error => {
+      console.error('File download error:', error);
+      if(error.status===404)this.openSnackBar("Carnet no encontrado", 'Cerrar');
+    });
+  }
+
+
 
  onSubmit() {
-
+   if (!this.ceduleFormGroup.valid)return;
+   const {cedule} = this.ceduleFormGroup.value;
+   if (cedule) {
+     this.showCarnet(cedule);
+   } else {
+     console.error('Cedule is null or undefined');
+     this.openSnackBar("Cedula invalida", 'Cerrar');
+   }
  }
 
+ download(cedule:string){
+     if(cedule){
+        this.carnetService.downloadCarnet(cedule);
+     }
+ }
 
  ngOnInit(): void {
 

@@ -1,3 +1,11 @@
+
+<!---<div>
+  <button (click)="showCarnet('20327658')">Mostrar Carnet</button>
+  <div *ngIf="imageUrl">
+    <img [src]="imageUrl" alt="Carnet" class="carnet-preview">
+  </div>
+</div>-->
+
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
   <div class="login-form">
@@ -52,12 +60,10 @@
         <mat-label>Cédula</mat-label>
         <input matInput formControlName="cedule" required>
          <mat-error *ngIf="secondFormGroup.get('cedule')?.hasError('minlength')">
-          Cédula debe tener al menos 3 caracteres
+          Cédula debe tener al menos 5 números
         </mat-error>
 
-        <mat-error *ngIf="secondFormGroup.get('cedule')?.hasError('maxlength')">
-         Cédula no debe exceder los 8 caracteres
-        </mat-error>
+ 
         <mat-error *ngIf="secondFormGroup.get('cedule')?.hasError('invalidNumber')">
          Cédula debe ser númerico
         </mat-error>

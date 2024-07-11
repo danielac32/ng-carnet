@@ -46,6 +46,9 @@ import {StateService} from '../services/state.service'
 import {Carnet} from '../../interface/carnet.interface'
  
 import { Router,NavigationExtras } from '@angular/router';
+import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm install file-saver
+
+
 
 @Component({
   selector: 'app-crear',
@@ -72,6 +75,7 @@ import { Router,NavigationExtras } from '@angular/router';
 })
 export class CrearComponent implements OnInit {
  
+  imageUrl: string | ArrayBuffer | null = null;
 
 //newForm: FormGroup<NewForm>;
 firstFormGroup: FormGroup<FirstFormGroup>;
@@ -116,6 +120,7 @@ public uniqueSuffix?:string;
   //private civilService=inject(CivilService);
   private router=inject(Router);
  
+
 
 
   ngOnInit(): void {
@@ -239,9 +244,6 @@ public uniqueSuffix?:string;
         //updated_at: new Date('2023-06-27')
     }*/
  
-
-
-
     if (!this.firstFormGroup.valid ||
         !this.secondFormGroup.valid || 
         !this.thirdFormGroup.valid || 
@@ -295,6 +297,7 @@ public uniqueSuffix?:string;
                 this.carnetService.sendFile(this.selectedFile ,cedule).subscribe(response => {
                    console.log(response)
                    this.openSnackBar("Carnet creado", 'Cerrar');
+                   this.downloadCarnet(cedule);
                    window.location.reload();//this.router.navigate(['/carnet/crear']);
                 }, error => {
                    console.error('Error en la solicitud :sendFile ', error);
@@ -321,8 +324,24 @@ public uniqueSuffix?:string;
     };*/
   }
 
+  
+  showCarnet(cedule: string) {
+    this.carnetService.getCarnetBlob(cedule).subscribe((blob) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageUrl = reader.result;
+      };
+      reader.readAsDataURL(blob);
+    }, error => {
+      console.error('File download error:', error);
+      this.openSnackBar("File download error", 'Cerrar');
+    });
+  }
 
- 
+  
+  downloadCarnet(cedule: string) {
+    this.carnetService.downloadCarnet(cedule);
+  }
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
