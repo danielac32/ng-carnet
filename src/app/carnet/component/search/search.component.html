@@ -18,21 +18,22 @@
 		</mat-form-field>
 
 	 
-		  <div *ngIf="imageUrl">
-		    <img [src]="imageUrl" alt="Carnet" class="carnet-preview">
+		  <div *ngIf="frente">
+		    <img [src]="frente" alt="Carnet" class="carnet-preview">
+		    <img [src]="atras" alt="Carnet" class="carnet-preview">
 		  </div>
 
 
 		<mat-card-actions class="action-container">
-			 @if(imageUrl){
+			 @if(frente || atras){
 	    	 
 		    <button mat-raised-button type="submit" color="primary" (click)="download(ceduleFormGroup.get('cedule')?.value?? '')" matTooltip="Descargar"><mat-icon>
            download
        </mat-icon> </button>
-			    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" matTooltip="Eliminar"><mat-icon>
+			    <button mat-raised-button type="submit" color="primary" (click)="delete(ceduleFormGroup.get('cedule')?.value?? '')" matTooltip="Eliminar"><mat-icon>
            delete
        </mat-icon> </button>
-			    <button mat-raised-button type="submit" color="primary" (click)="onSubmit()" matTooltip="Actualizar"><mat-icon>
+			    <button mat-raised-button type="submit" color="primary" (click)="update(ceduleFormGroup.get('cedule')?.value?? '')" matTooltip="Actualizar"><mat-icon>
            update
        </mat-icon> </button>
 	    }

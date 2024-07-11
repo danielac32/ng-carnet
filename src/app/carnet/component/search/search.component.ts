@@ -47,7 +47,8 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class SearchComponent implements OnInit {
 	ceduleFormGroup: FormGroup<CeduleFormGroup>;
- imageUrl: string | ArrayBuffer | null = null;
+ frente: string | ArrayBuffer | null = null;
+  atras: string | ArrayBuffer | null = null;
 
   private _snackBar=inject(MatSnackBar);
   private router=inject(Router);
@@ -74,7 +75,18 @@ private carnetService=inject(CarnetService);
     this.carnetService.getCarnetBlob(cedule).subscribe((blob) => {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageUrl = reader.result;
+        this.frente = reader.result;
+      };
+      reader.readAsDataURL(blob);
+    }, error => {
+      console.error('File download error:', error);
+      if(error.status===404)this.openSnackBar("Carnet no encontrado", 'Cerrar');
+    });
+
+    this.carnetService.getCarnetBlob2(cedule).subscribe((blob) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.atras = reader.result;
       };
       reader.readAsDataURL(blob);
     }, error => {
@@ -99,6 +111,19 @@ private carnetService=inject(CarnetService);
  download(cedule:string){
      if(cedule){
         this.carnetService.downloadCarnet(cedule);
+        this.carnetService.downloadCarnet2(cedule);
+     }
+ }
+
+ delete(cedule:string){
+     if(cedule){
+         
+     }
+ }
+
+ update(cedule:string){
+     if(cedule){
+         
      }
  }
 

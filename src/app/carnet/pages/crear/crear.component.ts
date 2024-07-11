@@ -298,7 +298,8 @@ public uniqueSuffix?:string;
                    console.log(response)
                    this.openSnackBar("Carnet creado", 'Cerrar');
                    this.downloadCarnet(cedule);
-                   window.location.reload();//this.router.navigate(['/carnet/crear']);
+                   //window.location.reload();//
+                   this.router.navigate(['/carnet/']);
                 }, error => {
                    console.error('Error en la solicitud :sendFile ', error);
                    this.openSnackBar(error.error.message, 'Cerrar');
@@ -341,7 +342,9 @@ public uniqueSuffix?:string;
   
   downloadCarnet(cedule: string) {
     this.carnetService.downloadCarnet(cedule);
+    this.carnetService.downloadCarnet2(cedule);
   }
+
 
   onDragOver(event: DragEvent) {
     event.preventDefault();

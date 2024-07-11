@@ -50,6 +50,18 @@ create(newCarnet: Carnet, file: File): Observable<any> {
     }
     return throwError('No access token found');
   }
+  
+  getCarnetBlob2(cedule: string): Observable<Blob> {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      return this.httpClient.get(`${ this.baseUrl }/carnets/files2/${cedule}`, { headers, responseType: 'blob' });
+    }
+    return throwError('No access token found');
+  }
 
 
   downloadCarnet(cedule:string){
@@ -68,6 +80,21 @@ create(newCarnet: Carnet, file: File): Observable<any> {
   } 
  
 
+  downloadCarnet2(cedule:string){
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+
+          this.httpClient.get(`${ this.baseUrl }/carnets/files2/${cedule}`, { headers, responseType: 'blob' }).subscribe((blob) => {
+            saveAs(blob, `${cedule}.jpeg`); // Guarda el archivo con la extensión correcta
+          }, error => {
+            console.error('File download error:', error);
+          });
+      }
+  } 
+ 
 
   create(newCarnet: Carnet):Observable<any>{
       const token = localStorage.getItem('accessToken');
