@@ -1,1 +1,50 @@
-<p>card works!</p>
+
+@if(carnet){
+<mat-card-content>
+<mat-card>
+
+
+<mat-tab-group>
+  <mat-tab label="Perfil"> 
+
+  <mat-card-header>
+<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+<mat-card-subtitle>{{carnet.name +" "+ carnet.lastname | titlecase}}</mat-card-subtitle>
+<mat-card-subtitle>Telefono: {{carnet.cellpone}}</mat-card-subtitle>
+</mat-card-content>
+
+
+  </mat-tab>
+  <mat-tab label="Direccion"> 
+<mat-card-content>
+<mat-card-subtitle>Ciudad: {{carnet.state?.name}}</mat-card-subtitle>
+<mat-card-subtitle>Municipio: {{carnet.municipalities}}</mat-card-subtitle>
+<mat-card-subtitle>Prroquia: {{carnet.parishes}}</mat-card-subtitle>
+<mat-card-subtitle>Direccion: {{carnet.address}}</mat-card-subtitle>
+</mat-card-content>
+</mat-tab>
+
+
+  <mat-tab label="CIIP">
+  	<mat-card-content>
+   <mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
+<mat-card-subtitle>Cargo: {{carnet.charge?.name}}</mat-card-subtitle>
+<mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
+</mat-card-content>
+</mat-tab>
+  <mat-tab label="Carnet"> 
+  <div *ngIf="frente">
+		    <img [src]="frente" alt="Carnet" class="carnet-preview">
+		    <img [src]="atras" alt="Carnet" class="carnet-preview">
+		  </div>
+</mat-tab>
+
+</mat-tab-group>
+
+
+</mat-card>
+</mat-card-content>
+}
+

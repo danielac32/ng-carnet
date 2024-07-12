@@ -2,7 +2,7 @@ import { Injectable ,inject} from '@angular/core';
 import { Observable ,throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development'
-import {Carnet} from '../../interface/carnet.interface'
+import {Carnet,CarnetsResponse} from '../../interface/carnet.interface'
 
 import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm install file-saver
  
@@ -37,6 +37,21 @@ create(newCarnet: Carnet, file: File): Observable<any> {
   }
   return new Observable<any>();
 }*/
+  
+
+  getCarnets(status?: number, limit: number = 10, page: number = 1 ): Observable<CarnetsResponse> {
+    const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+
+          return this.httpClient.get<any>
+            (`${ this.baseUrl }/carnets/get?status=${status}&limit=${ limit }&page=${page}`,{ headers })
+      }
+      return new Observable<CarnetsResponse>();
+  }
+
 
 
   getCarnetBlob(cedule: string): Observable<Blob> {

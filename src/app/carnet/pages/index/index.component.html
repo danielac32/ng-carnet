@@ -1,1 +1,15 @@
-<p>index works!</p>
+<div>
+ 
+    <div class="navigation">
+        <button matTooltip="Anterior" (click)="backReservations()" [disabled]="page < 2"> <mat-icon>skip_previous</mat-icon> </button>
+    <button matTooltip="Siguiente" (click)="otherReservations()" [disabled]="metaLastPage === page"> <mat-icon>skip_next</mat-icon> </button>
+    </div>
+    <div class="container">
+        @for (carnet of carnets; track carnet.id) {
+            <app-card
+                class="card"
+                [carnet]="carnet"
+             />
+        }
+    </div>
+</div>

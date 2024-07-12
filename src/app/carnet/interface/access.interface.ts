@@ -10,4 +10,3 @@ export interface AccessResponse {
   access: Access[];
 }
 
-
