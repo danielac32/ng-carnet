@@ -39,6 +39,20 @@ create(newCarnet: Carnet, file: File): Observable<any> {
 }*/
   
 
+
+  delete(id:string):Observable<any>{
+     const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.delete<any>(`${ this.baseUrl }/carnets/${id}`,{ headers });
+      }
+      return new Observable<any>();
+  }
+
+
+
   getCarnets(status?: number, limit: number = 10, page: number = 1 ): Observable<CarnetsResponse> {
     const token = localStorage.getItem('accessToken');
       if (token) {
@@ -46,7 +60,7 @@ create(newCarnet: Carnet, file: File): Observable<any> {
             'Authorization': `Bearer ${token}`
           });
 
-          return this.httpClient.get<any>
+          return this.httpClient.get<CarnetsResponse>
             (`${ this.baseUrl }/carnets/get?status=${status}&limit=${ limit }&page=${page}`,{ headers })
       }
       return new Observable<CarnetsResponse>();

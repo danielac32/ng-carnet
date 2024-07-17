@@ -125,10 +125,23 @@
     <form [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Step 3</ng-template>
       <mat-card>
+      
 
       <mat-form-field appearance="fill">
         <mat-label>Departamento</mat-label>
-        <!--<input matInput formControlName="department" required>-->
+        <mat-select formControlName="department" (selectionChange)="onDepartmentSelection($event)"
+          panelClass="panelResponsive">
+          <mat-option *ngFor="let department of filteredDepartment" [value]="department.id">
+            <span>{{department.name}}
+            </span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+     <!-- <mat-form-field appearance="fill">
+        <mat-label>Departamento</mat-label>
+   
         <mat-select formControlName="department" required>
             @for (depart of department; track depart.id) {
                 <mat-option value="{{ depart.id }}">{{ depart.name }}</mat-option>
@@ -136,7 +149,8 @@
                 <mat-option>There are no items.</mat-option>
             }          
         </mat-select>
-      </mat-form-field>
+         
+      </mat-form-field>-->
 
 
       <mat-form-field appearance="fill">

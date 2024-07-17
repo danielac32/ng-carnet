@@ -48,6 +48,10 @@ import {Carnet} from '../../interface/carnet.interface'
 import { Router,NavigationExtras } from '@angular/router';
 import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm install file-saver
 
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
+import { Observable,of } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 
 @Component({
@@ -67,7 +71,8 @@ import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm in
       MatDatepickerModule,
       MatListModule,
       MatProgressBarModule,
-      MatStepperModule
+      MatStepperModule,
+      MatAutocompleteModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './crear.component.html',
@@ -76,6 +81,8 @@ import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm in
 export class CrearComponent implements OnInit {
  
   imageUrl: string | ArrayBuffer | null = null;
+ 
+
 
 //newForm: FormGroup<NewForm>;
 firstFormGroup: FormGroup<FirstFormGroup>;
@@ -120,8 +127,20 @@ public uniqueSuffix?:string;
   //private civilService=inject(CivilService);
   private router=inject(Router);
  
+  selectedDepartment?: { id: number, name: string};
 
+  get filteredDepartment() {
+    if (this.selectedDepartment) {
+      return this.department?.filter(language => language.name !== this.selectedDepartment!.name);
+    } else {
+      return this.department;
+    }
+  }
 
+  onDepartmentSelection(event: any) {
+    this.selectedDepartment = event.value;
+  }
+ 
 
   ngOnInit(): void {
     this.departmentService.findAll().subscribe(({department}) => {
@@ -132,6 +151,7 @@ public uniqueSuffix?:string;
       console.error('Error en la solicitud :', error);
       
     });
+   
     /*this.textureService.findAll().subscribe(({texture}) => {
        //console.log(response,"ok")
        this.texture=texture;
@@ -289,6 +309,9 @@ public uniqueSuffix?:string;
         created_at: new Date(),
         //updated_at: new Date('2023-06-27')
     }
+
+
+    console.log(exampleCarnet)
     if (this.selectedFile) {
         this.carnetService.create(exampleCarnet).subscribe(response => {
             console.log(response)
