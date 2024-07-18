@@ -31,6 +31,10 @@ export interface Carnet {
     updated_at?: Date;
 }
 
+export interface CarnetResponseOne {
+ carnet:carnet2;
+}
+
 interface Department {
     id?: number;
     name: string;

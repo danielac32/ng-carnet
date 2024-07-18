@@ -78,9 +78,12 @@ export class IndexComponent implements OnInit {
  loadCarnets(){
 
  	this.carnetService.getCarnets(this.status, this.limit, this.page).subscribe(({total,lastPage,page,carnets}) => {
-       //console.log(total,lastPage,page,carnets)
+       console.log(total,lastPage,page)
        this.carnets=carnets;
-       console.log(this.carnets)
+       this.metaLastPage = lastPage,
+       this.page = page,
+       this.total= total
+       //console.log(this.carnets)
     }, error => {
        console.error('Error en la solicitud :', error);
     });

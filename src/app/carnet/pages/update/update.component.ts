@@ -1,6 +1,4 @@
-import { Component ,OnInit,inject} from '@angular/core';
- 
-
+import { Component,OnInit,inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms'; // Import FormsModule
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule} from '@angular/material/checkbox';
 import {CdkTextareaAutosize, TextFieldModule} from '@angular/cdk/text-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -21,7 +19,7 @@ import {
         FirstFormGroup,
         SecondFormGroup,
         ThirdFormGroup,
-        FourFormGroup} from '../../formGroup/newCarnet.formGroup'
+        FourFormGroup} from '../../formGroup/UpdateCarnet.formGroup'
 
 import {MatStepperModule} from '@angular/material/stepper';
 import {CarnetService} from '../services/carnet.service'
@@ -43,9 +41,9 @@ import {State} from '../../interface/state.interface'
 import {StateService} from '../services/state.service'
 //import {Civil} from '../../interface/civil.interface'
 //import {CivilService} from '../services/civil.service'
-import {Carnet} from '../../interface/carnet.interface'
+import {Carnet,CarnetResponseOne,carnet2} from '../../interface/carnet.interface'
  
-import { Router,NavigationExtras } from '@angular/router';
+import { Router,NavigationExtras,ActivatedRoute } from '@angular/router';
 import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm install file-saver
 
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -53,9 +51,11 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { Observable,of } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
+import * as CryptoJS from 'crypto-js';
+
 
 @Component({
-  selector: 'app-crear',
+  selector: 'app-update',
   standalone: true,
   imports: [
       MatFormFieldModule,
@@ -75,26 +75,21 @@ import { startWith, map } from 'rxjs/operators';
       MatAutocompleteModule
   ],
   providers: [provideNativeDateAdapter()],
-  templateUrl: './crear.component.html',
-  styleUrl: './crear.component.css'
+  templateUrl: './update.component.html',
+  styleUrl: './update.component.css'
 })
-export class CrearComponent implements OnInit {
- 
-  imageUrl: string | ArrayBuffer | null = null;
- 
-
-
+export class UpdateComponent implements OnInit {
 //newForm: FormGroup<NewForm>;
 firstFormGroup: FormGroup<FirstFormGroup>;
 secondFormGroup: FormGroup<SecondFormGroup>;
 thirdFormGroup: FormGroup<ThirdFormGroup>;
 fourFormGroup: FormGroup<FourFormGroup>;
-
 isLinear = false;
 selectedFile?: File;
 
-
+imageUrl: string | ArrayBuffer | null = null;
 public department?: Department[] = []
+public carnet?: carnet2;
 //public texture?: Texture[] = []
 public charge?: Charge[] = []
 public access?: Access[] = []
@@ -105,6 +100,14 @@ public states?: State[]=[]
 //public civil?: Civil[]=[]
 public uniqueSuffix?:string;
 
+		private _snackBar=inject(MatSnackBar);
+		private carnetService=inject(CarnetService);
+		private departmentService=inject(DepartmentService);
+		private chargeService=inject(ChargeService);
+		private accessService=inject(AccessService);
+		private stateService=inject(StateService);
+		private router=inject(Router);
+    private route=inject(ActivatedRoute);
 
  constructor(/*private _snackBar: MatSnackBar,*/private http: HttpClient) {
     //this.newForm = new FormGroup<NewForm>(new NewForm());
@@ -113,20 +116,25 @@ public uniqueSuffix?:string;
     this.thirdFormGroup = new FormGroup<ThirdFormGroup>(new ThirdFormGroup());
     this.fourFormGroup = new FormGroup<FourFormGroup>(new FourFormGroup());
  }
-  
-  private _snackBar=inject(MatSnackBar);
-  private carnetService=inject(CarnetService);
-  private departmentService=inject(DepartmentService);
-  //private textureService=inject(TextureService);
-  private chargeService=inject(ChargeService);
-  private accessService=inject(AccessService);
-  //private gendersService=inject(GendersService);
-  //private hairColorService=inject(HairColorService);
-  //private skinColorService=inject(SkinColorService);
-  private stateService=inject(StateService);
-  //private civilService=inject(CivilService);
-  private router=inject(Router);
- 
+
+
+    decryptString(encryptedValue: string, key: string): string {
+      const bytes = CryptoJS.AES.decrypt(encryptedValue, key);
+      return bytes.toString(CryptoJS.enc.Utf8);
+    }
+
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000, // Duración en milisegundos
+      verticalPosition: 'top', // Posición vertical de la alerta
+      horizontalPosition: 'end', // Posición horizontal de la alerta
+      panelClass: ['green']
+    });
+  }
+
+  RealCedule:string="null";
+
   selectedDepartment?: { id: number, name: string};
 
   get filteredDepartment() {
@@ -140,145 +148,119 @@ public uniqueSuffix?:string;
   onDepartmentSelection(event: any) {
     this.selectedDepartment = event.value;
   }
- 
 
-  ngOnInit(): void {
-    this.departmentService.findAll().subscribe(({department}) => {
-       //console.log(department,"ok")
-       this.department=department;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });
-   
-    /*this.textureService.findAll().subscribe(({texture}) => {
-       //console.log(response,"ok")
-       this.texture=texture;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });*/
-    this.chargeService.findAll().subscribe(({charge}) => {
-       //console.log(response,"ok")
-       this.charge=charge;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });
+
+    formatDate(date: Date): string {
+      const d = new Date(date);
+      let month = '' + (d.getMonth() + 1);
+      let day = '' + d.getDate();
+      const year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    }
+
+
+		ngOnInit(): void {
+      this.route.queryParams.subscribe(params => {
+     
+          const id = this.decryptString(params['id'],"12345");
+          console.log(id)
+          this.RealCedule=id;
+
+          this.carnetService.get(id).subscribe(({carnet}) => {
+            this.carnet=carnet
+            console.log(carnet)
+            this.firstFormGroup.get('name')?.setValue(carnet.name??"");
+            this.firstFormGroup.get('lastname')?.setValue(carnet.lastname??"");
+            this.firstFormGroup.get('expiration')?.setValue(this.formatDate(carnet.expiration));
+            this.firstFormGroup.get('note')?.setValue(carnet.note??"");
+
+            this.secondFormGroup.get('cedule')?.setValue(carnet.cedule??"");
+            this.secondFormGroup.get('address')?.setValue(carnet.address??"");
+            this.secondFormGroup.get('cellpone')?.setValue(carnet.cellpone??"");
+            this.secondFormGroup.get('card_code')?.setValue(carnet.card_code??"");
+
+
+            //this.thirdFormGroup.get('cedule')?.setValue(carnet.cedule??"");
+            //this.thirdFormGroup.get('address')?.setValue(carnet.address??"");
+           // this.thirdFormGroup.get('cellpone')?.setValue(carnet.cellpone??"");
+
+           // this.fourFormGroup.get('state')?.setValue(carnet.state??"");
+           // this.fourFormGroup.get('address')?.setValue(carnet.address??"");
+           // this.fourFormGroup.get('cellpone')?.setValue(carnet.cellpone??"");
+
+          }, error => {
+            console.error('Error en la solicitud :', error);
+            this.openSnackBar("Error cargando Carnet", 'Cerrar');
+            this.router.navigate(['/carnet/buscar']);
+          });
+      },error=>{
+        console.log(error)
+      });
+      this.departmentService.findAll().subscribe(({department}) => {
+         //console.log(department,"ok")
+         this.department=department;
+         //console.log(this.department)
+      }, error => {
+        console.error('Error en la solicitud :', error);
+      });
+
+      this.chargeService.findAll().subscribe(({charge}) => {
+         //console.log(response,"ok")
+         this.charge=charge;
+         //console.log(this.department)
+      }, error => {
+        console.error('Error en la solicitud :', error);
+      });
     this.accessService.findAll().subscribe(({access}) => {
        //console.log(response,"ok")
        this.access=access;
        //console.log(this.department)
     }, error => {
-      console.error('Error en la solicitud :', error);
-      
+       console.error('Error en la solicitud :', error);
     });
-   /* this.gendersService.findAll().subscribe(({genders}) => {
-       //console.log(response,"ok")
-       this.genders=genders;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });*/
-    /*this.hairColorService.findAll().subscribe(({hair}) => {
-       //console.log(response,"ok")
-       this.hair=hair;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });*/
-    /*this.skinColorService.findAll().subscribe(({skin}) => {
-       //console.log(response,"ok")
-       this.skin=skin;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });*/
     this.stateService.findAll().subscribe(({state}) => {
        //console.log(response,"ok")
        this.states=state;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
-      
     });
-    /*this.civilService.findAll().subscribe(({statuses}) => {
-       //console.log(response,"ok")
-       this.civil=statuses;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
+
+
+		}
+    
+		onSubmit() {
+      if (!this.firstFormGroup.valid ||
+          !this.secondFormGroup.valid || 
+          !this.thirdFormGroup.valid || 
+          !this.fourFormGroup.valid) {
+          this.openSnackBar("Algunos campos son requeridos", 'Cerrar');
+          return;
+      }
       
-    });*/
-  }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000, // Duración en milisegundos
-      verticalPosition: 'top', // Posición vertical de la alerta
-      horizontalPosition: 'end', // Posición horizontal de la alerta
-      panelClass: ['green']
-    });
-  }
-
-
-
-  onSubmit() {
+      const {name,lastname,expiration,note} = this.firstFormGroup.value;
+      const {cedule/*,extent*/,address,cellpone,card_code} = this.secondFormGroup.value;
+      const {department,charge/*,textures*/,access_levels/*,genders,hair_colors*/} = this.thirdFormGroup.value;
+      const {state,municipalities,parishes/*,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
+      let changePhoto:number =0;/// 100 es para usar la foto ya guardada
      
-/*
-    const exampleCarnet1: Carnet = {
-        name: 'daniel',
-        lastname: 'quintero',
-        //card_code: '1234567890',
-        expiration: new Date( ),
-        note: "",
+      if(this.RealCedule !== cedule){
+         this.openSnackBar("Para cambiar la cedula debe eliminar el carnet y crear de nuevo el registro", 'Cerrar');
+         return;
+      }
 
-        cedule: '87878877887',
-        //extent: extent?? '',
-        address: 'los teques',
-      // phone: '555-1234',
-        cellpone: '04142688881',
-        //photo: this.uniqueSuffix as string,
-        //qr: 'https://example.com/qr-code.jpg',
-        
-        department: 1,
-        charge: 1,
-        type_creations: 1,// ingreso = 1, Renovación = 2 , Extravío =  3
-        //textures: Number(textures),
-        status: 1,// activo = 1, Inactivo = 2  
-        access_levels: 1,
-        //genders: Number(genders),
-        //hair_colors: Number(hair_colors),
-        state: 1,
-        municipalities: '',
-        parishes: '',
-        //skin_colors: Number(skin_colors),
-        //civil_statuses: Number(civil_statuses),
-        created_at: new Date(),
-        //updated_at: new Date('2023-06-27')
-    }*/
- 
-    if (!this.firstFormGroup.valid ||
-        !this.secondFormGroup.valid || 
-        !this.thirdFormGroup.valid || 
-        !this.fourFormGroup.valid) {
-        this.openSnackBar("Algunos campos son requeridos", 'Cerrar');
-        return;
-    }
-
-    const {name,lastname,expiration,note} = this.firstFormGroup.value;
-    const {cedule/*,extent*/,address,cellpone,card_code} = this.secondFormGroup.value;
-    const {department,charge/*,textures*/,access_levels/*,genders,hair_colors*/} = this.thirdFormGroup.value;
-    const {state,municipalities,parishes/*,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
-
-
-    const exampleCarnet: Carnet = {
+      if (this.selectedFile) {
+          changePhoto=100;//si hay foto
+      }else{
+          changePhoto=200;
+      }
+      
+      const exampleCarnet: Carnet = {
         name: name?? '',
         lastname: lastname?? '',
         
@@ -296,7 +278,7 @@ public uniqueSuffix?:string;
         
         department: Number(department),
         charge: Number(charge),
-        type_creations: 1,// ingreso = 1, Renovación = 2 , Extravío =  3
+        type_creations: changePhoto,//uso este dato para decirle al nest usa la foto o la borra // ingreso = 1, Renovación = 2 , Extravío =  3
         //textures: Number(textures),
         status: 1,// activo = 1, Inactivo = 2  
         access_levels: Number(access_levels),
@@ -312,56 +294,40 @@ public uniqueSuffix?:string;
     }
 
 
-    //console.log(exampleCarnet)
-    if (this.selectedFile) {
-        this.carnetService.create(exampleCarnet).subscribe(response => {
+     console.log(exampleCarnet)
+     if (this.selectedFile) {// si hay un archivo 
+         this.carnetService.update(this.RealCedule??"",exampleCarnet).subscribe(response => {
             console.log(response)
-            //if (this.selectedFile)this.uploadFile(this.selectedFile,cedule);
-            if (this.selectedFile && cedule){
-                this.carnetService.sendFile(this.selectedFile ,cedule).subscribe(response => {
-                   console.log(response)
-                   this.openSnackBar("Carnet creado", 'Cerrar');
-                   this.downloadCarnet(cedule);
-                   //window.location.reload();//
-                   this.router.navigate(['/carnet/list']);
-                }, error => {
-                   console.error('Error en la solicitud :sendFile ', error);
-                   this.openSnackBar(error.error.message, 'Cerrar');
-                   return;
-                });
-            }
-        }, error => {
-          console.error('Error en la solicitud :create ', error);
+         }, error => {
+            console.error('Error en la solicitud :create ', error);
           this.openSnackBar(error.error.message, 'Cerrar');
           return;
         });
-    } else {
-       console.error('No file selected');
-       this.openSnackBar("Seleccione una imagen", 'Cerrar');
-       return;
+     }else{
+         this.carnetService.update(this.RealCedule??"",exampleCarnet).subscribe(response => {
+            console.log(response)
+            this.openSnackBar("Carnet actualizado", 'Cerrar');
+            this.router.navigate(['/carnet/list']);
+         }, error => {
+            console.error('Error en la solicitud :create ', error);
+          this.openSnackBar(error.error.message, 'Cerrar');
+          return;
+        });
+     }
+		}
+
+    showCarnet(cedule: string) {
+      this.carnetService.getCarnetBlob(cedule).subscribe((blob) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imageUrl = reader.result;
+        };
+        reader.readAsDataURL(blob);
+      }, error => {
+        console.error('File download error:', error);
+        this.openSnackBar("File download error", 'Cerrar');
+      });
     }
-
-    
-    /*const formData = {
-      ...this.firstFormGroup.value,
-      ...this.secondFormGroup.value,
-      ...this.thirdFormGroup.value,
-    };*/
-  }
-
-  
-  showCarnet(cedule: string) {
-    this.carnetService.getCarnetBlob(cedule).subscribe((blob) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imageUrl = reader.result;
-      };
-      reader.readAsDataURL(blob);
-    }, error => {
-      console.error('File download error:', error);
-      this.openSnackBar("File download error", 'Cerrar');
-    });
-  }
 
   
   downloadCarnet(cedule: string) {
@@ -416,25 +382,4 @@ public uniqueSuffix?:string;
     }
   }
 
-  
-  
-
-
-  uploadFile(file: File) {
-   /* this.carnetService.sendFile(file).subscribe(response => {
-       console.log(response,"ok")
-    }, error => {
-      console.error('Error en la solicitud :', error);
-    });*/
-
-    /*const formData = new FormData();
-    formData.append('file', file);
-    this.http.post('http://localhost:3000/upload', formData)
-      .subscribe(response => {
-        console.log('Upload success', response);
-      }, error => {
-        console.error('Upload error', error);
-      });*/
-
-  }
 }

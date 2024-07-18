@@ -4,3 +4,9 @@
   border: 1px solid #ccc; /* Opcional: agrega un borde para hacer la imagen más visible */
   border-radius: 5px; /* Opcional: agrega esquinas redondeadas */
 }
+
+.action-container {
+  padding:10px;
+  display: flex;
+  justify-content: center;
+}

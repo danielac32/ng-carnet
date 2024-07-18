@@ -2,7 +2,7 @@ import { Injectable ,inject} from '@angular/core';
 import { Observable ,throwError} from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development'
-import {Carnet,CarnetsResponse} from '../../interface/carnet.interface'
+import {Carnet,CarnetsResponse,CarnetResponseOne} from '../../interface/carnet.interface'
 
 import { saveAs } from 'file-saver'; // Necesitarás instalar file-saver: npm install file-saver
  
@@ -38,7 +38,28 @@ create(newCarnet: Carnet, file: File): Observable<any> {
   return new Observable<any>();
 }*/
   
+  update(id: string,newCarnet: Carnet):Observable<any>{
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.patch<any>(`${ this.baseUrl }/carnets/${id}`, {...newCarnet},{ headers });
+      }
+      return new Observable<any>();
+  } 
 
+
+  get(cedule: string): Observable<CarnetResponseOne> {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+      return this.httpClient.get<CarnetResponseOne>(`${ this.baseUrl }/carnets/${cedule}`, { headers });
+    }
+    return throwError('No access token found');
+  }
 
   delete(id:string):Observable<any>{
      const token = localStorage.getItem('accessToken');

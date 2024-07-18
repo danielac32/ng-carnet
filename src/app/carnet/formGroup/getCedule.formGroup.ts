@@ -16,5 +16,5 @@ export class CustomValidator{
 
 
 export class CeduleFormGroup {
-  cedule= new FormControl('', [Validators.required,Validators.minLength(3),Validators.maxLength(8),CustomValidator.numeric]);
+  cedule= new FormControl('', [Validators.required,Validators.minLength(3),CustomValidator.numeric]);
 }

@@ -9,9 +9,9 @@
 			  Cédula debe tener al menos 3 caracteres
 			 </mat-error>
 
-			 <mat-error *ngIf="ceduleFormGroup.get('cedule')?.hasError('maxlength')">
+			 <!--<mat-error *ngIf="ceduleFormGroup.get('cedule')?.hasError('maxlength')">
 			 Cédula no debe exceder los 8 caracteres
-			 </mat-error>
+			 </mat-error>-->
 			 <mat-error *ngIf="ceduleFormGroup.get('cedule')?.hasError('invalidNumber')">
 			 Cédula debe ser númerico
 			 </mat-error>

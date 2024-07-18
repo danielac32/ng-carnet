@@ -21,6 +21,9 @@ import {CarnetService} from '../../pages/services/carnet.service'
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import * as CryptoJS from 'crypto-js';
+
+
 
 @Component({
   selector: 'app-search',
@@ -78,20 +81,21 @@ private carnetService=inject(CarnetService);
         this.frente = reader.result;
       };
       reader.readAsDataURL(blob);
+      //
+        this.carnetService.getCarnetBlob2(cedule).subscribe((blob) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            this.atras = reader.result;
+          };
+          reader.readAsDataURL(blob);
+        }, error => {
+          console.error('File download error:', error);
+          if(error.status===404)this.openSnackBar("Carnet 2 no encontrado", 'Cerrar');
+        });
+      //
     }, error => {
       console.error('File download error:', error);
-      if(error.status===404)this.openSnackBar("Carnet no encontrado", 'Cerrar');
-    });
-
-    this.carnetService.getCarnetBlob2(cedule).subscribe((blob) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.atras = reader.result;
-      };
-      reader.readAsDataURL(blob);
-    }, error => {
-      console.error('File download error:', error);
-      if(error.status===404)this.openSnackBar("Carnet no encontrado", 'Cerrar');
+      if(error.status===404)this.openSnackBar("Carnet 1 no encontrado", 'Cerrar');
     });
   }
 
@@ -115,15 +119,39 @@ private carnetService=inject(CarnetService);
      }
  }
 
- delete(cedule:string){
+  delete(cedule:string){
      if(cedule){
-         
+         this.carnetService.delete(cedule).subscribe(response => {
+           console.log(response)   
+           this.openSnackBar(cedule + " ha sido eliminado", 'Cerrar');
+           this.router.navigate(['/carnet/list']);
+        },error => {
+          console.error('Error en la solicitud :', error);
+        });
      }
- }
+  }
+
+ 
+  encryptString(value: string, key: string): string {
+    return CryptoJS.AES.encrypt(value, key).toString();
+  }
+
+  decryptString(encryptedValue: string, key: string): string {
+    const bytes = CryptoJS.AES.decrypt(encryptedValue, key);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  }
+
+
+ 
 
  update(cedule:string){
      if(cedule){
-         
+         const parametros: NavigationExtras = {
+              queryParams: {
+                id:this.encryptString(cedule,"12345")
+              }
+         };
+         this.router.navigate(['/carnet/actualizar'],parametros);
      }
  }
 
