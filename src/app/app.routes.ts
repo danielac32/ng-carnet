@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 
 import {guardCheckGuard} from './auth/services/guard-check.guard'
 import { AuthGuard } from './auth/services/auth.guard';
-
+import {ViewComponent} from './carnet/pages/view/view.component'
 
 export const routes: Routes = [
     {
@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadChildren: () => import('./carnet/carnet.routes').then(m => m.CARNET_ROUTES),
         canActivate: [AuthGuard]
     },
+    {
+         path: 'ficha', component: ViewComponent 
+    },
+
     /*{
         path: 'articles',
         loadChildren: () => import('./articles/articles.routes').then(m => m.ARTICLES_ROUTES)

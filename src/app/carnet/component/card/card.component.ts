@@ -144,7 +144,8 @@ export class CardComponent implements OnInit {
          this.carnetService.delete(cedule).subscribe(response => {
            console.log(response)   
            this.openSnackBar(cedule + " ha sido eliminado", 'Cerrar');
-           this.router.navigate(['/carnet/list']);
+           this.router.navigate(['/carnet']);
+           return;
         },error => {
           console.error('Error en la solicitud :', error);
         });

@@ -298,16 +298,30 @@ public uniqueSuffix?:string;
      if (this.selectedFile) {// si hay un archivo 
          this.carnetService.update(this.RealCedule??"",exampleCarnet).subscribe(response => {
             console.log(response)
+            this.openSnackBar("Creando carnet", 'Cerrar');
+            if (this.selectedFile && cedule){
+                this.carnetService.sendFile(this.selectedFile ,cedule).subscribe(response => {
+                   console.log(response)
+                   this.openSnackBar("Carnet actualizado", 'Cerrar');
+                   //this.downloadCarnet(cedule);
+                   //window.location.reload();//
+                   this.router.navigate(['/carnet/buscar']);
+                }, error => {
+                   console.error('Error en la solicitud :sendFile ', error);
+                   this.openSnackBar(error.error.message, 'Cerrar');
+                   return;
+                });
+            }
          }, error => {
             console.error('Error en la solicitud :create ', error);
-          this.openSnackBar(error.error.message, 'Cerrar');
-          return;
+            this.openSnackBar(error.error.message, 'Cerrar');
+            return;
         });
      }else{
          this.carnetService.update(this.RealCedule??"",exampleCarnet).subscribe(response => {
             console.log(response)
             this.openSnackBar("Carnet actualizado", 'Cerrar');
-            this.router.navigate(['/carnet/list']);
+            this.router.navigate(['/carnet/buscar']);
          }, error => {
             console.error('Error en la solicitud :create ', error);
           this.openSnackBar(error.error.message, 'Cerrar');
