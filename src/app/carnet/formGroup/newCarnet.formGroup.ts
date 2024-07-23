@@ -72,8 +72,8 @@ export class ThirdFormGroup {
 
 export class FourFormGroup {
   state = new FormControl([],[Validators.required]);
-  municipalities= new FormControl('', [Validators.required]);
-  parishes= new FormControl('', []);
+  //municipalities= new FormControl('', [Validators.required]);
+  //parishes= new FormControl('', []);
   //skin_colors = new FormControl([],[]);
   //civil_statuses = new FormControl([],[Validators.required]);
 }

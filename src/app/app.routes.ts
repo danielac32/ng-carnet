@@ -17,7 +17,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-         path: 'ficha', component: ViewComponent 
+         path: 'carnet/ficha', component: ViewComponent 
     },
 
     /*{

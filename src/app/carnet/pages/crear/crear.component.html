@@ -12,12 +12,13 @@
   <mat-step [stepControl]="firstFormGroup">
   <div class="login-form">
  
-    <mat-card-content>
+ 
     <form [formGroup]="firstFormGroup">
 
       <ng-template matStepLabel>Step 1</ng-template>
 
       <mat-card>
+      
       <mat-form-field appearance="fill">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="name" required>
@@ -40,12 +41,10 @@
         <mat-label>Observación</mat-label>
         <textarea matInput formControlName="note"></textarea>
       </mat-form-field>
-     <!-- <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>-->
+   
       </mat-card>
     </form>
- </mat-card-content>
+ 
 </div>
 
 
@@ -274,14 +273,14 @@
       </mat-form-field>
 
 
-      <mat-form-field appearance="fill">
+      <!--<mat-form-field appearance="fill">
         <mat-label>Municipio</mat-label>
         <input matInput formControlName="municipalities" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Parroquia</mat-label>
         <input matInput formControlName="parishes">
-      </mat-form-field>
+      </mat-form-field>-->
     
      <!--
        <mat-form-field appearance="fill">

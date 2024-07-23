@@ -246,7 +246,7 @@ public uniqueSuffix?:string;
       const {name,lastname,expiration,note} = this.firstFormGroup.value;
       const {cedule/*,extent*/,address,cellpone,card_code} = this.secondFormGroup.value;
       const {department,charge/*,textures*/,access_levels/*,genders,hair_colors*/} = this.thirdFormGroup.value;
-      const {state,municipalities,parishes/*,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
+      const {state/*,municipalities,parishes,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
       let changePhoto:number =0;/// 100 es para usar la foto ya guardada
      
       if(this.RealCedule !== cedule){
@@ -285,8 +285,8 @@ public uniqueSuffix?:string;
         //genders: Number(genders),
         //hair_colors: Number(hair_colors),
         state: Number(state),
-        municipalities: municipalities?? '',
-        parishes: parishes?? '',
+        //municipalities: municipalities?? '',
+        //parishes: parishes?? '',
         //skin_colors: Number(skin_colors),
         //civil_statuses: Number(civil_statuses),
         created_at: new Date(),
@@ -308,6 +308,7 @@ public uniqueSuffix?:string;
                    this.router.navigate(['/carnet/buscar']);
                 }, error => {
                    console.error('Error en la solicitud :sendFile ', error);
+                   this.remove(cedule)
                    this.openSnackBar(error.error.message, 'Cerrar');
                    return;
                 });
@@ -330,6 +331,18 @@ public uniqueSuffix?:string;
      }
 		}
 
+
+  remove(cedule:string){
+    this.carnetService.delete(cedule).subscribe(response => {
+       console.log(response)   
+       this.openSnackBar(cedule + " ha sido eliminado", 'Cerrar');
+       this.router.navigate(['/carnet/list']);
+       return;
+    },error => {
+      console.error('Error en la solicitud :', error);
+    });
+  }
+  
     showCarnet(cedule: string) {
       this.carnetService.getCarnetBlob(cedule).subscribe((blob) => {
         const reader = new FileReader();

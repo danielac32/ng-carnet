@@ -13,6 +13,7 @@ import {UpdateComponent} from './pages/update/update.component'
 import { AuthGuard } from '../auth/services/auth.guard' //'./auth/service/auth.guard';
 
 import {ViewComponent} from './pages/view/view.component'
+import {GenerateComponent} from './pages/generate/generate.component'
 
 export const CARNET_ROUTES: Routes = [
     {
@@ -22,7 +23,7 @@ export const CARNET_ROUTES: Routes = [
             { path: 'buscar', component: BuscarComponent, canActivate: [AuthGuard]},
             { path: 'crear', component: CrearComponent, canActivate: [AuthGuard] },
             { path: 'actualizar', component: UpdateComponent , canActivate: [AuthGuard]},
-            //{ path: 'ficha', component: ViewComponent , canActivate: [AuthGuard]},
+            { path: 'generar', component: GenerateComponent , canActivate: [AuthGuard]},
             //{ path: '', redirectTo: 'nuevo-ingreso', pathMatch: 'full' }
         ]
     }

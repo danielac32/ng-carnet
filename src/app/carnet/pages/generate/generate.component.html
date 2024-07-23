@@ -1,0 +1,22 @@
+<div class="login-form">
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+
+<mat-step [stepControl]="firstFormGroup">
+		<form [formGroup]="firstFormGroup">
+		<ng-template matStepLabel>Step 1</ng-template>
+			<mat-card appearance="outlined">
+			</mat-card>
+		</form>
+</mat-step>
+
+<mat-step [stepControl]="secondFormGroup">
+		<form [formGroup]="secondFormGroup">
+		<ng-template matStepLabel>Step 2</ng-template>
+			<mat-card>
+			</mat-card>
+		</form>
+</mat-step>
+
+</mat-horizontal-stepper>
+</div>

@@ -11,8 +11,8 @@ export interface Carnet {
     address?: string;
     //phone?: string;
     cellpone?: string;
-    photo?: string;
-    qr?: string;
+   // photo?: string;
+    //qr?: string;
 
     department?: number;
     charge?: number;
@@ -23,8 +23,8 @@ export interface Carnet {
     //genders?: number;
     //hair_colors?: number;
     state?: number;
-    municipalities?: string;
-    parishes?: string;
+    //municipalities?: string;
+    //parishes?: string;
     //skin_colors?: number;
     //civil_statuses?: number;
     created_at?: Date;
@@ -70,15 +70,15 @@ export interface carnet2 {
     cedule?: string;
     address?: string;
     cellpone?: string;
-    photo?: string;
-    qr?: string;
+    //photo?: string;
+    //qr?: string;
     department?: Department;
     charge?: Charge;
     status?: Status;// activo = 1, Inactivo = 2  
     access_levels?: Access_levels;
     state?: State;
-    municipalities?: string;
-    parishes?: string;
+   // municipalities?: string;
+   // parishes?: string;
     created_at?: Date;
     updated_at?: Date;
 }
