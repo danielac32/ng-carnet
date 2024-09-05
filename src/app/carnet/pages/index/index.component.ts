@@ -59,6 +59,16 @@ export class IndexComponent implements OnInit {
 
   public limit: number = 5;
   public limitOptions: number[] = [5, 10, 15, 25, 50];
+  public filter : number=1;
+  //public filter: string[] = ["REGULAR", "ASESOR", "VISITANTE"];
+
+  /*public filter: {id:number,name:string}[] = [
+  { id: 1, name: 'REGULAR' },
+  { id: 2, name: 'ASESOR' },
+  { id: 3, name: 'VISITANTE' },
+];*/
+
+
   public page: number = 1;
   public total?:number;
   public metaPage?: number;
@@ -76,8 +86,19 @@ export class IndexComponent implements OnInit {
    }
 
  loadCarnets(){
-
- 	this.carnetService.getCarnets(this.status, this.limit, this.page).subscribe(({total,lastPage,page,carnets}) => {
+//getFilterCarnets
+/* 	this.carnetService.getCarnets(this.status, this.limit, this.page).subscribe(({total,lastPage,page,carnets}) => {
+       console.log(total,lastPage,page)
+       this.carnets=carnets;
+       this.metaLastPage = lastPage,
+       this.page = page,
+       this.total= total
+       //console.log(this.carnets)
+    }, error => {
+       console.error('Error en la solicitud :', error);
+    });*/
+   console.log("consultando :"+this.filter);
+   this.carnetService.getFilterCarnets(this.filter, this.limit, this.page).subscribe(({total,lastPage,page,carnets}) => {
        console.log(total,lastPage,page)
        this.carnets=carnets;
        this.metaLastPage = lastPage,
@@ -96,12 +117,7 @@ export class IndexComponent implements OnInit {
         ));*/
  }
 
-
  
-  changeStatusFilter(newStatus: string): void {
-    this.rol = newStatus;
-    this.loadCarnets(); // Volver a cargar las reservas con el nuevo filtro
-  }
 
   backReservations() {
     if(this.page <= 1) return;
@@ -122,6 +138,12 @@ export class IndexComponent implements OnInit {
     // this.limit = value;
   }
 
+  changeList(event: any) {
+    const value = event.target.value;
+    //console.log(value)
+    this.filter=Number(value);
+    this.loadCarnets();
+  }
 
  ngOnInit(): void {
     this.loadCarnets();

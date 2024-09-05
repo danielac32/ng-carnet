@@ -13,7 +13,7 @@
   <div class="login-form">
  
  
-    <form [formGroup]="firstFormGroup">
+    <form [formGroup]="firstFormGroup" autocomplete="on">
 
       <ng-template matStepLabel>Step 1</ng-template>
 
@@ -21,11 +21,11 @@
       
       <mat-form-field appearance="fill">
         <mat-label>Nombre</mat-label>
-        <input matInput formControlName="name" required>
+        <input matInput formControlName="name" autocomplete required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Apellido</mat-label>
-        <input matInput formControlName="lastname" required>
+        <input matInput formControlName="lastname" autocomplete required>
       </mat-form-field>
       <!--<mat-form-field appearance="fill">
         <mat-label>Card Code</mat-label>
@@ -33,13 +33,13 @@
       </mat-form-field>-->
       <mat-form-field appearance="fill">
         <mat-label>Vencimiento</mat-label>
-        <input matInput [matDatepicker]="expPicker" formControlName="expiration" required>
+        <input matInput [matDatepicker]="expPicker" formControlName="expiration" autocomplete="on" required>
         <mat-datepicker-toggle matSuffix [for]="expPicker"></mat-datepicker-toggle>
         <mat-datepicker #expPicker></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Observación</mat-label>
-        <textarea matInput formControlName="note"></textarea>
+        <textarea matInput autocomplete="on" formControlName="note"></textarea>
       </mat-form-field>
    
       </mat-card>
@@ -50,7 +50,7 @@
 
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup">
+  <mat-step [stepControl]="secondFormGroup" autocomplete="on">
     <div class="login-form">
  
     <mat-card-content>
@@ -59,7 +59,7 @@
       <mat-card>
       <mat-form-field appearance="fill">
         <mat-label>Cédula</mat-label>
-        <input matInput formControlName="cedule" required>
+        <input matInput formControlName="cedule" autocomplete="on" required>
          <mat-error *ngIf="secondFormGroup.get('cedule')?.hasError('minlength')">
           Cédula debe tener al menos 5 números
         </mat-error>
@@ -90,7 +90,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Dirección</mat-label>
-        <textarea matInput formControlName="address" required></textarea>
+        <textarea matInput formControlName="address"autocomplete="on" required></textarea>
       </mat-form-field>
       <!--<mat-form-field appearance="fill">
         <mat-label>Teléfono</mat-label>
@@ -98,7 +98,7 @@
       </mat-form-field>-->
       <mat-form-field appearance="fill">
         <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="cellpone" required>
+        <input matInput formControlName="cellpone" autocomplete="on" required>
         <mat-error *ngIf="secondFormGroup.get('cellpone')?.hasError('invalidNumber')">
          Teléfono debe ser númerico
         </mat-error>
@@ -110,7 +110,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Codigo</mat-label>
-        <input matInput formControlName="card_code" required>
+        <input matInput formControlName="card_code" autocomplete="on" required>
          <mat-error *ngIf="secondFormGroup.get('card_code')?.hasError('minlength')">
           Código debe tener al menos 1 números
          </mat-error>
@@ -132,7 +132,7 @@
 </div>
   </mat-step>
 
-  <mat-step [stepControl]="thirdFormGroup">
+  <mat-step [stepControl]="thirdFormGroup" autocomplete="on">
     <div class="login-form">
  
     <mat-card-content>
@@ -241,7 +241,7 @@
 
 
 
-  <mat-step [stepControl]="fourFormGroup">
+  <mat-step [stepControl]="fourFormGroup" autocomplete="on">
     <div class="login-form">
  
     <mat-card-content>

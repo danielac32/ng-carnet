@@ -248,7 +248,20 @@ public uniqueSuffix?:string;
       const {department,charge/*,textures*/,access_levels/*,genders,hair_colors*/} = this.thirdFormGroup.value;
       const {state/*,municipalities,parishes,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
       let changePhoto:number =0;/// 100 es para usar la foto ya guardada
-     
+      
+      /*this.carnetService.checkCardCode(card_code!).subscribe(response => {
+        // console.log(response.status)
+         if(response.status===200){ // si responde 200 ya existe un carnet con ese codigo de barra
+                                    // retornamos error para no crear carnet con un mismo numero
+           this.openSnackBar("Ya existe un carnet con ese Codigo: "+card_code , 'Cerrar');   
+           return;             
+         }
+      }, error => {
+        console.error('Error en la solicitud :', error);
+        this.openSnackBar(error.error.message, 'Cerrar');
+        return;
+      }); */
+      
       if(this.RealCedule !== cedule){
          this.openSnackBar("Para cambiar la cedula debe eliminar el carnet y crear de nuevo el registro", 'Cerrar');
          return;
@@ -260,6 +273,17 @@ public uniqueSuffix?:string;
           changePhoto=200;
       }
       
+ 
+      let dep : number = Number(department);
+      let char : number = Number(charge);
+      let acc : number = Number(access_levels);
+      let sta : number = Number(state);
+      if(dep===0)dep=this.carnet?.department?.id!;
+      if(char===0)char=this.carnet?.charge?.id!;
+      if(acc===0)acc=this.carnet?.access_levels?.id!;
+      if(sta===0)sta=this.carnet?.state?.id!;
+
+
       const exampleCarnet: Carnet = {
         name: name?? '',
         lastname: lastname?? '',
@@ -276,15 +300,15 @@ public uniqueSuffix?:string;
         //photo: this.uniqueSuffix as string,
         //qr: 'https://example.com/qr-code.jpg',
         
-        department: Number(department),
-        charge: Number(charge),
+        department: Number(dep),
+        charge: Number(char),
         type_creations: changePhoto,//uso este dato para decirle al nest usa la foto o la borra // ingreso = 1, Renovación = 2 , Extravío =  3
         //textures: Number(textures),
         status: 1,// activo = 1, Inactivo = 2  
-        access_levels: Number(access_levels),
+        access_levels: Number(acc),
         //genders: Number(genders),
         //hair_colors: Number(hair_colors),
-        state: Number(state),
+        state: Number(sta),
         //municipalities: municipalities?? '',
         //parishes: parishes?? '',
         //skin_colors: Number(skin_colors),

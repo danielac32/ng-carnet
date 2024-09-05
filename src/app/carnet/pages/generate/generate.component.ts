@@ -17,12 +17,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {
-        FirstFormGroup,
-        SecondFormGroup,
-        ThirdFormGroup,
-        FourFormGroup} from '../../formGroup/newCarnet.formGroup'
-
+import {FirstFormGroup} from '../../formGroup/newAsesor.formGroup'
+import {SecondFormGroup} from '../../formGroup/newVisitante.formGroup'
 import {MatStepperModule} from '@angular/material/stepper';
 import {CarnetService} from '../services/carnet.service'
 import {DepartmentService} from '../services/department.service'
@@ -73,29 +69,22 @@ export class GenerateComponent implements OnInit {
   imageUrl: string | ArrayBuffer | null = null;
  
 
-
+secondFormGroup: FormGroup<SecondFormGroup>;
 //newForm: FormGroup<NewForm>;
 firstFormGroup: FormGroup<FirstFormGroup>;
-secondFormGroup: FormGroup<SecondFormGroup>;
-thirdFormGroup: FormGroup<ThirdFormGroup>;
-fourFormGroup: FormGroup<FourFormGroup>;
 
 isLinear = false;
 selectedFile?: File;
 
 
 public department?: Department[] = []
-public charge?: Charge[] = []
 public access?: Access[] = []
-public states?: State[]=[]
 public uniqueSuffix?:string;
 
 
  constructor() {
     this.firstFormGroup = new FormGroup<FirstFormGroup>(new FirstFormGroup());
     this.secondFormGroup = new FormGroup<SecondFormGroup>(new SecondFormGroup());
-    this.thirdFormGroup = new FormGroup<ThirdFormGroup>(new ThirdFormGroup());
-    this.fourFormGroup = new FormGroup<FourFormGroup>(new FourFormGroup());
  }
   
   private _snackBar=inject(MatSnackBar);
@@ -128,33 +117,18 @@ public uniqueSuffix?:string;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
-      
     });
    
- 
-    this.chargeService.findAll().subscribe(({charge}) => {
-       //console.log(response,"ok")
-       this.charge=charge;
-       //console.log(this.department)
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });
+
     this.accessService.findAll().subscribe(({access}) => {
        //console.log(response,"ok")
        this.access=access;
        //console.log(this.department)
     }, error => {
       console.error('Error en la solicitud :', error);
-      
     });
 
-    this.stateService.findAll().subscribe(({state}) => {
-       this.states=state;
-    }, error => {
-      console.error('Error en la solicitud :', error);
-      
-    });
+     
   }
 
   openSnackBar(message: string, action: string) {
@@ -170,42 +144,126 @@ public uniqueSuffix?:string;
 
   onSubmit() {
 
-    if (!this.firstFormGroup.valid ||
-        !this.secondFormGroup.valid || 
-        !this.thirdFormGroup.valid || 
-        !this.fourFormGroup.valid) {
+    if (!this.firstFormGroup.valid ) {
         this.openSnackBar("Algunos campos son requeridos", 'Cerrar');
         return;
     }
 
-    const {name,lastname,expiration,note} = this.firstFormGroup.value;
-    const {cedule,address,cellpone,card_code} = this.secondFormGroup.value;
-    const {department,charge,access_levels} = this.thirdFormGroup.value;
-    const {state}= this.fourFormGroup.value;
-
+    const { name,lastname,expiration,cedule,cellpone,card_code,department,access_levels} = this.firstFormGroup.value;
 
     const exampleCarnet: Carnet = {
         name: name?? '',
         lastname: lastname?? '',
         expiration: new Date(expiration ?? '' ),
-        note: note?? '',
+        note:'',
         cedule: cedule?? '',
-        address: address?? '',
+        //address: address?? '',
         cellpone: cellpone?? '',
         card_code: card_code?? '',
         department: Number(department),
-        charge: Number(charge),
+        charge: Number(30),//asesor 30,visitante 31
         type_creations: 1,// ingreso = 1, Renovación = 2 , Extravío =  3
         status: 1,// activo = 1, Inactivo = 2  
         access_levels: Number(access_levels),
-        state: Number(state),
+       // state: Number(state),
         created_at: new Date(),
     }
 
+    /*this.carnetService.checkCardCode(card_code!).subscribe(response => {
+      // console.log(response.status)
+       if(response.status===200){ // si responde 200 ya existe un carnet con ese codigo de barra
+                                  // retornamos error para no crear carnet con un mismo numero
+         this.openSnackBar("Ya existe un carnet con ese Codigo: "+card_code , 'Cerrar');   
+        // this.router.navigate(['/carnet/list']);
+         return;             
+       }else if(response.status===404){
+              this.carnetService.createAsesor(exampleCarnet).subscribe(response => {
+                  console.log(response)
+                  this.openSnackBar("Carnet creado", 'Cerrar');
+                  this.downloadCarnet(exampleCarnet.cedule!);
+                  this.router.navigate(['/carnet/list']);
+              }, error => {
+                 console.error('Error en la solicitud :create ', error);
+                 this.openSnackBar(error.error.message, 'Cerrar');
+                 return;
+              });
+       }
+    }, error => {
+      console.error('Error en la solicitud :', error);
+      this.openSnackBar(error.error.message, 'Cerrar');
+      return;
+    }); */
+    this.carnetService.createAsesor(exampleCarnet).subscribe(response => {
+        console.log(response)
+        this.openSnackBar("Carnet creado", 'Cerrar');
+        this.downloadCarnet(exampleCarnet.cedule!);
+        this.router.navigate(['/carnet/list']);
+    }, error => {
+       console.error('Error en la solicitud :create ', error);
+       this.openSnackBar(error.error.message, 'Cerrar');
+       return;
+    });
 
-     
   }
   
+  onSubmit2() {
+    if (!this.secondFormGroup.valid ) {
+        this.openSnackBar("Algunos campos son requeridos", 'Cerrar');
+        return;
+    }
+
+    //const { name,lastname,cedule,department,access_levels,card_code} = this.secondFormGroup.value;
+    const { card_code} = this.secondFormGroup.value;
+
+    const exampleCarnet: Carnet = {
+        name: '',
+        lastname:  '',
+        cedule: card_code+'',
+        type_creations: 1,
+        status: 1,// activo = 1, Inactivo = 2  
+        card_code: card_code?? '',
+        charge: Number(31),//asesor 30,visitante 31
+        department: Number(73),
+        access_levels: Number(14),
+        created_at: new Date(),
+    }
+
+    this.carnetService.createVisitante(exampleCarnet).subscribe(response => {
+        console.log(response)
+        this.openSnackBar("Carnet creado", 'Cerrar');
+        this.downloadCarnet(exampleCarnet.cedule!);
+        this.router.navigate(['/carnet/list']);
+    }, error => {
+       console.error('Error en la solicitud :create ', error);
+       this.openSnackBar(error.error.message, 'Cerrar');
+       return;
+    });
+
+    /*this.carnetService.checkCardCode(card_code!).subscribe(response => {
+      // console.log(response.status)
+       if(response.status===200){ // si responde 200 ya existe un carnet con ese codigo de barra
+                                  // retornamos error para no crear carnet con un mismo numero
+         this.openSnackBar("Ya existe un carnet con ese Codigo: "+card_code , 'Cerrar');   
+        // this.router.navigate(['/carnet/list']);
+         return;             
+       }else if(response.status===404){
+              this.carnetService.createAsesor(exampleCarnet).subscribe(response => {
+                  console.log(response)
+                  this.openSnackBar("Carnet creado", 'Cerrar');
+                  this.downloadCarnet(exampleCarnet.cedule!);
+                  this.router.navigate(['/carnet/list']);
+              }, error => {
+                 console.error('Error en la solicitud :create ', error);
+                 this.openSnackBar(error.error.message, 'Cerrar');
+                 return;
+              });
+       }
+    }, error => {
+      console.error('Error en la solicitud :', error);
+      this.openSnackBar(error.error.message, 'Cerrar');
+      return;
+    }); */
+  }
 
   remove(cedule:string){
     this.carnetService.delete(cedule).subscribe(response => {

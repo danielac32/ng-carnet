@@ -92,7 +92,7 @@ export class AuthService {
     // Eliminar la información de sesión del localStorage
     localStorage.removeItem('accessToken');
     console.log("logout")
-    this.router.navigate(['/login']);
+    this.router.navigate(['ciip/login']);
   }
 
    isLoggedIn(): boolean {

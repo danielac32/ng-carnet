@@ -61,17 +61,20 @@ export class SecondFormGroup {
 }
 
 export class ThirdFormGroup {
-  department = new FormControl([],[Validators.required]);
-  charge = new FormControl([],[Validators.required]);
+  //department = new FormControl([],[Validators.required]);
+  //charge = new FormControl([],[Validators.required]);
+  department = new FormControl([]);
+  charge = new FormControl([]);
+
   //type_creations= new FormControl('', [Validators.required]);
   //textures = new FormControl([],[Validators.required]);
-  access_levels = new FormControl([],[Validators.required]);
+  access_levels = new FormControl([]);//access_levels = new FormControl([],[Validators.required]);
   //genders = new FormControl([],[Validators.required]);
   //hair_colors = new FormControl([],[]);
 }
 
 export class FourFormGroup {
-  state = new FormControl([],[Validators.required]);
+  state = new FormControl([]);//state = new FormControl([],[Validators.required]);
   //municipalities= new FormControl('', [Validators.required]);
   //parishes= new FormControl('', [Validators.required]);
   //skin_colors = new FormControl([],[]);

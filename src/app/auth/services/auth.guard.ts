@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
     } else {
       // Si el usuario no está autenticado, redirigir al componente de inicio de sesión
       console.log("no esta loggeado")
-      this.router.navigate(['/login']);
+      this.router.navigate(['/ciip/login']);
       return false; // No permitir la navegación
     }
   }

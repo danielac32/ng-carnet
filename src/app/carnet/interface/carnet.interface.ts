@@ -1,10 +1,19 @@
 
 
+export interface CarnetVisitante {
+    name?: string;
+    lastname?: string;
+    cedule?: string;
+    department?: string;
+    access_levels?: string;
+}
+
+
 export interface Carnet {
     name?: string;
     lastname?: string;
     card_code?: string;
-    expiration: Date;
+    expiration?: Date;
     note?: string;
     cedule?: string;
     //extent?: string;
@@ -16,7 +25,7 @@ export interface Carnet {
 
     department?: number;
     charge?: number;
-    type_creations: number;
+    type_creations?: number;
     //textures?: number;
     status?: number;// activo = 1, Inactivo = 2  
     access_levels?: number;

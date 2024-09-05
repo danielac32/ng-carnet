@@ -8,7 +8,7 @@ import {ViewComponent} from './carnet/pages/view/view.component'
 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'ciip',
         loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
     },
     {

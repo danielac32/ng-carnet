@@ -3,19 +3,120 @@
 
 
 <mat-step [stepControl]="firstFormGroup">
+	<mat-card-content>
 		<form [formGroup]="firstFormGroup">
-		<ng-template matStepLabel>Step 1</ng-template>
+		<ng-template matStepLabel>Asesor</ng-template>
 			<mat-card appearance="outlined">
+<!--------------------------------------------------------------------------------------->
+				  <mat-form-field appearance="fill">
+			        <mat-label>Nombre</mat-label>
+			        <input matInput formControlName="name" autocomplete required>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+			      <mat-form-field appearance="fill">
+			        <mat-label>Apellido</mat-label>
+			        <input matInput formControlName="lastname" autocomplete required>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+			      <mat-form-field appearance="fill">
+			        <mat-label>Cédula</mat-label>
+			        <input matInput formControlName="cedule" autocomplete="on" required>
+			         <mat-error *ngIf="firstFormGroup.get('cedule')?.hasError('minlength')">
+			          Cédula debe tener al menos 5 números
+			        </mat-error>
+			        <mat-error *ngIf="firstFormGroup.get('cedule')?.hasError('invalidNumber')">
+			         Cédula debe ser númerico
+			        </mat-error>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+                  <mat-form-field appearance="fill">
+			        <mat-label>Departamento</mat-label>
+			        <mat-select formControlName="department" (selectionChange)="onDepartmentSelection($event)"
+			          panelClass="panelResponsive">
+			          <mat-option *ngFor="let department of filteredDepartment" [value]="department.id">
+			            <span>{{department.name}}
+			            </span>
+			          </mat-option>
+			        </mat-select>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+			      <mat-form-field appearance="fill">
+			        <mat-label>Teléfono</mat-label>
+			        <input matInput formControlName="cellpone" autocomplete="on" required>
+			        <mat-error *ngIf="firstFormGroup.get('cellpone')?.hasError('invalidNumber')">
+			         Teléfono debe ser númerico
+			        </mat-error>
+			        <mat-error *ngIf="firstFormGroup.get('cellpone')?.hasError('minlength')">
+			          Teléfono debe tener al menos 10 caracteres
+			        </mat-error>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+			      <mat-form-field appearance="fill">
+			        <mat-label>Codigo</mat-label>
+			        <input matInput formControlName="card_code" autocomplete="on" required>
+			         <mat-error *ngIf="firstFormGroup.get('card_code')?.hasError('minlength')">
+			          Código debe tener al menos 1 número
+			         </mat-error>
+			         <mat-error *ngIf="firstFormGroup.get('card_code')?.hasError('maxlength')">
+			          Código debe tener al menos 10 números
+			        </mat-error>
+			        <mat-error *ngIf="firstFormGroup.get('card_code')?.hasError('invalidNumber')">
+			          Código debe ser númerico
+			        </mat-error>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+			      <mat-form-field appearance="fill">
+			        <mat-label>Nivel de Acceso</mat-label>
+			        <mat-select formControlName="access_levels" required>
+			            @for (piso of access; track piso.id) {
+			                <mat-option value="{{ piso.id }}">{{ piso.name }}</mat-option>
+			            } @empty {
+			                <mat-option>There are no items.</mat-option>
+			            }          
+			        </mat-select>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+			      <mat-form-field appearance="fill">
+			        <mat-label>Vencimiento</mat-label>
+			        <input matInput [matDatepicker]="expPicker" formControlName="expiration" autocomplete="on" required>
+			        <mat-datepicker-toggle matSuffix [for]="expPicker"></mat-datepicker-toggle>
+			        <mat-datepicker #expPicker></mat-datepicker>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+				<mat-card-actions class="action-container">
+        <button mat-raised-button type="submit" color="primary" (click)="onSubmit()">Crear</button>
+        </mat-card-actions>
 			</mat-card>
 		</form>
+	</mat-card-content>
 </mat-step>
 
 <mat-step [stepControl]="secondFormGroup">
+	<mat-card-content>
 		<form [formGroup]="secondFormGroup">
-		<ng-template matStepLabel>Step 2</ng-template>
-			<mat-card>
+		<ng-template matStepLabel>Visitante</ng-template>
+			<mat-card appearance="outlined">
+<!--------------------------------------------------------------------------------------->
+ 			      <mat-form-field appearance="fill">
+			        <mat-label>Codigo</mat-label>
+			        <input matInput formControlName="card_code" autocomplete="on" required>
+			         <mat-error *ngIf="secondFormGroup.get('card_code')?.hasError('minlength')">
+			          Código debe tener al menos 1 número
+			         </mat-error>
+			         <mat-error *ngIf="secondFormGroup.get('card_code')?.hasError('maxlength')">
+			          Código debe tener al menos 10 números
+			        </mat-error>
+			        <mat-error *ngIf="secondFormGroup.get('card_code')?.hasError('invalidNumber')">
+			          Código debe ser númerico
+			        </mat-error>
+			      </mat-form-field>
+<!--------------------------------------------------------------------------------------->
+				<mat-card-actions class="action-container">
+        <button mat-raised-button type="submit" color="primary" (click)="onSubmit2()">Crear</button>
+        </mat-card-actions>
 			</mat-card>
 		</form>
+	</mat-card-content>
 </mat-step>
 
 </mat-horizontal-stepper>

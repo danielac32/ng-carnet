@@ -1,9 +1,27 @@
 <div>
- 
-    <div class="navigation">
+    
+     <div class="navigation">
+    <select (change)="changeLimit($event)" matTooltip="Pagina">
+        @for (limit of limitOptions; track $index) {
+            <option [value]=limit>{{ limit }}</option>
+        }
+    </select>
         <button matTooltip="Anterior" (click)="backReservations()" [disabled]="page < 2"> <mat-icon>skip_previous</mat-icon> </button>
     <button matTooltip="Siguiente" (click)="otherReservations()" [disabled]="metaLastPage === page"> <mat-icon>skip_next</mat-icon> </button>
+    
+
+
+    <select (change)="changeList($event)" >
+       <option value="0">REGULAR</option>
+       <option value="30">ASESOR</option>
+       <option value="31">VISITANTE</option>
+    </select>
+
+    
+    <button matTooltip="Pagina">{{page}} </button>
     </div>
+
+
     <div class="container">
         @for (carnet of carnets; track carnet.id) {
             <app-card

@@ -20,7 +20,7 @@
 
 
 .login-form {
- top: 10px;
+  top: 10px;
   max-width: 400px; /* Establece un ancho máximo para el contenedor */
   margin: 0 auto; /* Centra el contenedor horizontalmente */
   padding: 20px; /* Agrega un poco de espacio alrededor del contenedor */
@@ -47,3 +47,26 @@
   border: 1px solid #ccc; /* Opcional: agrega un borde para hacer la imagen más visible */
   border-radius: 5px; /* Opcional: agrega esquinas redondeadas */
 }
+
+.background-container {
+    position: relative; /* Establece la posición relativa para poder posicionar elementos hijos de forma absoluta */
+}
+
+.background-image {
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    position: absolute; /* Establece la posición absoluta para que la imagen se superponga */
+    /*top: 60px;*/ /* Coloca la imagen en la esquina superior izquierda */
+    left: 0;
+    width: 100%; /* Haz que la imagen cubra todo el contenedor */
+    height: 100%;
+    z-index: -1; /* Coloca la imagen detrás del contenido principal */
+    /* Ajusta el fondo como desees, por ejemplo: */
+    background-image: url('../../../../assets/fondo.jpeg');
+    background-size: cover; /* Ajusta el tamaño de la imagen para que cubra todo el contenedor */
+    opacity: 0.8; /* Ajusta la opacidad de la imagen si lo deseas */
+    }
+    

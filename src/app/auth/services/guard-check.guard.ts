@@ -33,7 +33,7 @@ rol?:string;
       return true; // Permitir la navegación
     } else {
       // Si el usuario no está autenticado, redirigir al componente de inicio de sesión
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/ciip/login']);
       return false; // No permitir la navegación
     }
   }

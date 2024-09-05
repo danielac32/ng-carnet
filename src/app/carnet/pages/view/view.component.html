@@ -2,30 +2,70 @@
 	[carnet]="carnet"
 	/>-->
 
-
+<div class="background-image">
 @if(carnet){
 	<div class="login-form">
 		
 	<mat-card-content>
 	<mat-card>
-			<mat-card-header>
-						<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
-			</mat-card-header>
+
+		@if(carnet.charge?.name==="ASESOR"){
+			    <mat-card-header>
+					<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
+				</mat-card-header>
+					<mat-card-content>
+					<mat-card-subtitle>{{carnet.name +" "+ carnet.lastname | titlecase}}</mat-card-subtitle>
+					<mat-card-subtitle>Telefono: {{carnet.cellpone}}</mat-card-subtitle>
+					<mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
+					<mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
+					<mat-card-subtitle>Código: {{carnet.card_code}}</mat-card-subtitle><div *ngIf="frente">
+						<img [src]="frente" alt="Carnet" class="carnet-preview">
+						<img [src]="atras" alt="Carnet" class="carnet-preview">
+					</div>
+				</mat-card-content>
+		}@else if(carnet.charge?.name==="VISITANTE"){
+		 		<mat-card-header>
+		 		<mat-card-title>Visitante</mat-card-title>
+				<mat-card-title>{{ dataVisitor?.[0] +" "+ dataVisitor?.[1] | titlecase }}</mat-card-title>  
+				</mat-card-header>
+				<mat-card-content>
+				<mat-card-subtitle>{{ formatCedula(dataVisitor?.[2] ?? '') | titlecase}}</mat-card-subtitle>
+				<mat-card-subtitle>Departamento: {{ dataVisitor?.[3] }}</mat-card-subtitle>
+				<mat-card-subtitle>{{ dataVisitor?.[4] }}</mat-card-subtitle>
+				</mat-card-content>
+				<!--<mat-card-header>
+				<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
+				</mat-card-header>
 				<mat-card-content>
 				<mat-card-subtitle>{{carnet.name +" "+ carnet.lastname | titlecase}}</mat-card-subtitle>
 				<mat-card-subtitle>Telefono: {{carnet.cellpone}}</mat-card-subtitle>
-				<mat-card-subtitle>Ciudad: {{carnet.state?.name}}</mat-card-subtitle>
-				<mat-card-subtitle>Direccion: {{carnet.address}}</mat-card-subtitle>
 				<mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
-				<mat-card-subtitle>Cargo: {{carnet.charge?.name}}</mat-card-subtitle>
 				<mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
-				<mat-card-subtitle>Código: {{carnet.card_code}}</mat-card-subtitle>
-				<div *ngIf="frente">
-					<img [src]="frente" alt="Carnet" class="carnet-preview">
-					<img [src]="atras" alt="Carnet" class="carnet-preview">
-				</div>
-			</mat-card-content>
+				<mat-card-subtitle>Código: {{carnet.card_code}}</mat-card-subtitle>-->
+		}@else{
+				<mat-card-header>
+					<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<mat-card-subtitle>{{carnet.name +" "+ carnet.lastname | titlecase}}</mat-card-subtitle>
+					<mat-card-subtitle>Telefono: {{carnet.cellpone}}</mat-card-subtitle>
+					<mat-card-subtitle>Ciudad: {{carnet.state?.name}}</mat-card-subtitle>
+					<mat-card-subtitle>Direccion: {{carnet.address}}</mat-card-subtitle>
+					<mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
+					<mat-card-subtitle>Cargo: {{carnet.charge?.name}}</mat-card-subtitle>
+					<mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
+					<mat-card-subtitle>Código: {{carnet.card_code}}</mat-card-subtitle>
+					<div *ngIf="frente">
+						<img [src]="frente" alt="Carnet" class="carnet-preview">
+						<img [src]="atras" alt="Carnet" class="carnet-preview">
+					</div>
+				</mat-card-content>
+		}
+
 	</mat-card>
 	</mat-card-content>
+
+
 	</div>
 }
+</div>

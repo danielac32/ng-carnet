@@ -1,10 +1,10 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" autocomplete="on">
   <mat-card>
     <mat-card-content class="form-container">
       <mat-card-title>Login</mat-card-title>
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email">
+        <input matInput type="email" autocomplete="email" formControlName="email" required>
         @if(loginForm.get('email')?.hasError('required')){
           <mat-error>Email es requerido</mat-error>
         }
@@ -15,7 +15,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password">
+        <input matInput type="password" formControlName="password" autocomplete="current-password" required>
         @if(loginForm.get('password')?.hasError('required')){
           <mat-error>Contraseña requerida</mat-error>
         }

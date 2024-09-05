@@ -91,7 +91,7 @@ export class ViewComponent implements OnInit {
     frente: string | ArrayBuffer | null = null;
     atras: string | ArrayBuffer | null = null;
 
-
+    dataVisitor?: string[]=[];
     RealCedule:string="null";
     public carnet?: carnet2;
 
@@ -124,6 +124,7 @@ export class ViewComponent implements OnInit {
 
      
  encryptNumericString(text: string): string {
+   /*
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
 
@@ -139,12 +140,30 @@ export class ViewComponent implements OnInit {
     }
   }
 
+  return result;*/
+  const map: { [key: string]: string } = {
+    '0': 'a1', '1': 'b2', '2': 'c3', '3': 'd4', '4': 'e5',
+    '5': 'f6', '6': 'g7', '7': 'h8', '8': 'i9', '9': 'j0'
+  };
+  let result = '';
+
+  for (let i = 0; i < text.length; i++) {
+    let char = text.charAt(i);
+
+    // Ensure we have a valid index
+    if (map[char] !== undefined) {
+      result += map[char];
+    } else {
+      result += char; // Handle non-numeric characters
+    }
+  }
+
   return result;
 }
 
 
  decryptNumericString(text: string): string {
-  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  /*const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
 
   for (let i = 0; i < text.length; i++) {
@@ -156,6 +175,27 @@ export class ViewComponent implements OnInit {
       result += index.toString();
     } else {
       result += char; // Handle non-encrypted characters
+    }
+  }
+
+  return result;*/
+  const map: { [key: string]: string } = {
+   'a1': '0', 'b2': '1', 'c3': '2', 'd4': '3', 'e5': '4',
+    'f6': '5', 'g7': '6', 'h8': '7', 'i9': '8', 'j0': '9'
+  };
+  let result = '';
+  let i = 0;
+
+  while (i < text.length) {
+    let char = text.substring(i, i + 2);
+
+    // Ensure we have a valid character
+    if (map[char] !== undefined) {
+      result += map[char];
+      i += 2;
+    } else {
+      result += text.charAt(i); // Handle non-encrypted characters
+      i++;
     }
   }
 
@@ -178,11 +218,13 @@ export class ViewComponent implements OnInit {
 
 
 
-
       this.route.queryParams.subscribe(params => {
-      
+          
+
+
+
           const id = this.decryptNumericString(params['id']);
-         // console.log(id)
+          //console.log(id)
           //const id = params['id']
                  
           //const hash = decodeURIComponent(params['id']);
@@ -195,6 +237,9 @@ export class ViewComponent implements OnInit {
           this.RealCedule=id;
           this.carnetService.get2(id).subscribe(({carnet}) => {
           this.carnet=carnet
+          if(this.carnet.charge?.name==="VISITANTE"){
+             this.dataVisitor = this.carnet?.note?.split('#').filter(p => p.trim() !== '');
+          }
           this.showCarnet(this.carnet?.cedule??"");
           //console.log(carnet)
           }, error => {
@@ -205,7 +250,7 @@ export class ViewComponent implements OnInit {
       },error=>{
         console.log(error)
       });
-
+      
    
    }
 

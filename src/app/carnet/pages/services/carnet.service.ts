@@ -38,6 +38,21 @@ create(newCarnet: Carnet, file: File): Observable<any> {
   return new Observable<any>();
 }*/
   
+
+
+  updateVisitante(id: string,newCarnet: Carnet):Observable<any>{
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.patch<any>(`${ this.baseUrl }/carnets/updateVisitante/${id}`, {...newCarnet},{ headers });
+      }
+      return new Observable<any>();
+  } 
+
+
+
   update(id: string,newCarnet: Carnet):Observable<any>{
       const token = localStorage.getItem('accessToken');
       if (token) {
@@ -76,7 +91,16 @@ create(newCarnet: Carnet, file: File): Observable<any> {
       return new Observable<any>();
   }
 
-
+  deleteVisitante(id:string):Observable<any>{
+     const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.delete<any>(`${ this.baseUrl }/carnets/deleteVisitante/${id}`,{ headers });
+      }
+      return new Observable<any>();
+  }
 
   getCarnets(status?: number, limit: number = 10, page: number = 1 ): Observable<CarnetsResponse> {
     const token = localStorage.getItem('accessToken');
@@ -87,6 +111,19 @@ create(newCarnet: Carnet, file: File): Observable<any> {
 
           return this.httpClient.get<CarnetsResponse>
             (`${ this.baseUrl }/carnets/get?status=${status}&limit=${ limit }&page=${page}`,{ headers })
+      }
+      return new Observable<CarnetsResponse>();
+  }
+
+  getFilterCarnets(filter?: number, limit: number = 10, page: number = 1 ): Observable<CarnetsResponse> {
+    const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+
+          return this.httpClient.get<CarnetsResponse>
+            (`${ this.baseUrl }/carnets/getFilter?filter=${filter}&limit=${ limit }&page=${page}`,{ headers })
       }
       return new Observable<CarnetsResponse>();
   }
@@ -152,6 +189,44 @@ create(newCarnet: Carnet, file: File): Observable<any> {
       }
   } 
  
+
+  checkCardCode(id: string):Observable<any>{
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.post<any>(`${ this.baseUrl }/carnets/codebar/${id}`, {},{ headers });
+      }
+      return new Observable<any>();
+  } 
+
+
+
+  createVisitante(newCarnet: Carnet):Observable<any>{
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.post<any>(`${ this.baseUrl }/carnets/visitante`, {...newCarnet},{ headers });
+      }
+      return new Observable<any>();
+  } 
+
+
+
+  createAsesor(newCarnet: Carnet):Observable<any>{
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+          return this.httpClient.post<any>(`${ this.baseUrl }/carnets/asesor`, {...newCarnet},{ headers });
+      }
+      return new Observable<any>();
+  } 
+
 
   create(newCarnet: Carnet):Observable<any>{
       const token = localStorage.getItem('accessToken');

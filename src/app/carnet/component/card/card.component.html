@@ -1,6 +1,131 @@
-
-@if(carnet){
 <mat-card-content>
+@if(carnet){
+
+
+
+@if(carnet.charge?.name==="ASESOR"){
+<mat-card>
+<mat-tab-group>
+<mat-tab label="Perfil"> 
+<mat-card-header>
+<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+<mat-card-subtitle>{{carnet.name +" "+ carnet.lastname | titlecase}}</mat-card-subtitle>
+<mat-card-subtitle>Telefono: {{carnet.cellpone}}</mat-card-subtitle>
+</mat-card-content>
+</mat-tab>
+
+
+
+  <mat-tab label="CIIP">
+    <mat-card-content>
+   <mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
+<mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
+<mat-card-subtitle>Código: {{carnet.card_code}}</mat-card-subtitle>
+</mat-card-content>
+</mat-tab>
+  <mat-tab label="Carnet"> 
+  <div *ngIf="frente">
+        <img [src]="frente" alt="Carnet" class="carnet-preview">
+        <img [src]="atras" alt="Carnet" class="carnet-preview">
+      </div>
+
+
+  <mat-card-actions class="action-container">
+      <button mat-raised-button type="submit" color="primary" (click)="download(carnet.cedule??'')" matTooltip="Descargar"><mat-icon>
+           download
+       </mat-icon> </button>
+          <button mat-raised-button type="submit" color="primary" (click)="delete(carnet.cedule??'')" matTooltip="Eliminar"><mat-icon>
+           delete
+       </mat-icon> </button>
+          
+</mat-card-actions>
+       
+</mat-tab>
+
+</mat-tab-group>
+
+
+</mat-card>
+ 
+}@else if(carnet.charge?.name==="VISITANTE"){
+ 
+<mat-card>
+<mat-tab-group>
+@if (carnet.note ===null || carnet.note ===""){
+ 
+}@else{
+<mat-tab label="Perfil"> 
+<mat-card-header>
+<mat-card-title>{{ dataVisitor?.[0] +" "+ dataVisitor?.[1] | titlecase }}</mat-card-title>  
+</mat-card-header>
+<mat-card-content>
+<mat-card-subtitle>{{ formatCedula(dataVisitor?.[2] ?? '') | titlecase}}</mat-card-subtitle>
+<mat-card-subtitle>Departamento: {{ dataVisitor?.[3] }}</mat-card-subtitle>
+<mat-card-subtitle>{{ dataVisitor?.[4] }}</mat-card-subtitle>
+</mat-card-content>
+<!--<div *ngFor="let d of dataVisitor">
+  <p>{{ d }}</p>
+</div>-->
+
+<!--@if (carnet.name==='' && carnet.lastname===''){
+
+}@else{
+<mat-card-header>
+<mat-card-title>{{ formatCedula(carnet.cedule??'') }}</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+<mat-card-subtitle>{{carnet.name +" "+ carnet.lastname | titlecase}}</mat-card-subtitle>
+</mat-card-content>  
+}-->
+</mat-tab> 
+}
+
+<mat-tab label="CIIP">
+
+<div *ngIf="frente">
+  <img [src]="frente" alt="Carnet" class="carnet-preview">
+  <img [src]="atras" alt="Carnet" class="carnet-preview">
+</div>
+<!--@if (carnet.department?.name==='' && carnet.access_levels?.name===''){
+
+}@else{
+<mat-card-content>
+<mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
+<mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
+</mat-card-content>
+}-->
+ <mat-card-actions class="action-container">
+      <button mat-raised-button type="submit" color="primary" (click)="download(carnet.cedule??'')" matTooltip="Descargar"><mat-icon>
+           download
+       </mat-icon> </button>
+
+      <button mat-raised-button type="submit" color="primary" (click)="deleteVisitante( carnet.card_code??'')" matTooltip="Eliminar">
+          <mat-icon>
+           delete
+          </mat-icon> 
+      </button>
+      <button mat-raised-button type="submit" color="primary" (click)="asignar( carnet.card_code??'')" matTooltip="Asignar">
+          <mat-icon>
+           assignment
+          </mat-icon> 
+      </button>
+      <button mat-raised-button type="submit" color="primary" (click)="quitarVisitante( carnet.card_code??'')" matTooltip="Quitar">
+          <mat-icon>
+           close
+          </mat-icon> 
+      </button>
+</mat-card-actions>
+
+
+</mat-tab>
+
+</mat-tab-group>
+</mat-card>
+
+}@else{
+ 
 <mat-card>
 
 
@@ -26,7 +151,7 @@
 
 
   <mat-tab label="CIIP">
-  	<mat-card-content>
+    <mat-card-content>
    <mat-card-subtitle>Departamento: {{carnet.department?.name}}</mat-card-subtitle>
 <mat-card-subtitle>Cargo: {{carnet.charge?.name}}</mat-card-subtitle>
 <mat-card-subtitle>Acceso: {{carnet.access_levels?.name}}</mat-card-subtitle>
@@ -35,9 +160,9 @@
 </mat-tab>
   <mat-tab label="Carnet"> 
   <div *ngIf="frente">
-		    <img [src]="frente" alt="Carnet" class="carnet-preview">
-		    <img [src]="atras" alt="Carnet" class="carnet-preview">
-		  </div>
+        <img [src]="frente" alt="Carnet" class="carnet-preview">
+        <img [src]="atras" alt="Carnet" class="carnet-preview">
+      </div>
 
 
   <mat-card-actions class="action-container">
@@ -58,6 +183,9 @@
 
 
 </mat-card>
-</mat-card-content>
+
 }
 
+}
+
+</mat-card-content>

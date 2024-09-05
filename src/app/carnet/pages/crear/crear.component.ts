@@ -229,41 +229,27 @@ public uniqueSuffix?:string;
 
 
 
-  onSubmit() {
-     
-/*
-    const exampleCarnet1: Carnet = {
-        name: 'daniel',
-        lastname: 'quintero',
-        //card_code: '1234567890',
-        expiration: new Date( ),
-        note: "",
+check(code:string):boolean {
+    this.carnetService.checkCardCode(code!).subscribe(response => {
+      // console.log(response.status)
+       if(response.status===200){ // si responde 200 ya existe un carnet con ese codigo de barra
+                                  // retornamos error para no crear carnet con un mismo numero
+         this.openSnackBar("Ya existe un carnet con ese Codigo: "+code , 'Cerrar');   
+         //this.router.navigate(['/carnet/list']);
+         return false;             
+       } 
+       return true;
 
-        cedule: '87878877887',
-        //extent: extent?? '',
-        address: 'los teques',
-      // phone: '555-1234',
-        cellpone: '04142688881',
-        //photo: this.uniqueSuffix as string,
-        //qr: 'https://example.com/qr-code.jpg',
-        
-        department: 1,
-        charge: 1,
-        type_creations: 1,// ingreso = 1, Renovación = 2 , Extravío =  3
-        //textures: Number(textures),
-        status: 1,// activo = 1, Inactivo = 2  
-        access_levels: 1,
-        //genders: Number(genders),
-        //hair_colors: Number(hair_colors),
-        state: 1,
-        municipalities: '',
-        parishes: '',
-        //skin_colors: Number(skin_colors),
-        //civil_statuses: Number(civil_statuses),
-        created_at: new Date(),
-        //updated_at: new Date('2023-06-27')
-    }*/
- 
+    }, error => {
+      console.error('Error en la solicitud :', error);
+      this.openSnackBar(error.error.message, 'Cerrar');
+      return false;
+    }); 
+    return false; 
+}
+
+  onSubmit() {
+    console.log("aqui")
     if (!this.firstFormGroup.valid ||
         !this.secondFormGroup.valid || 
         !this.thirdFormGroup.valid || 
@@ -276,6 +262,22 @@ public uniqueSuffix?:string;
     const {cedule/*,extent*/,address,cellpone,card_code} = this.secondFormGroup.value;
     const {department,charge/*,textures*/,access_levels/*,genders,hair_colors*/} = this.thirdFormGroup.value;
     const {state,/*municipalities,parishes,skin_colors,civil_statuses*/}= this.fourFormGroup.value;
+    //if(!this.check(card_code!))return;
+
+    //console.log("aqui2")
+    /*this.carnetService.checkCardCode(card_code!).subscribe(response => {
+      // console.log(response.status)
+       if(response.status===200){ // si responde 200 ya existe un carnet con ese codigo de barra
+                                  // retornamos error para no crear carnet con un mismo numero
+         this.openSnackBar("Ya existe un carnet con ese Codigo: "+card_code , 'Cerrar');   
+         this.router.navigate(['/carnet/list']);
+         return;             
+       }
+    }, error => {
+      console.error('Error en la solicitud :', error);
+      this.openSnackBar(error.error.message, 'Cerrar');
+      return;
+    }); */
 
 
     const exampleCarnet: Carnet = {
