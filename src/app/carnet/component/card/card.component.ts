@@ -87,7 +87,7 @@ dataVisitor?: string[]=[];
 
 }
  ngOnInit(): void {
-    console.log(this.carnet)
+    //console.log(this.carnet)
     this.dataVisitor = this.carnet?.note?.split('#').filter(p => p.trim() !== '');
     this.showCarnet(this.carnet?.cedule??"");
  }

@@ -59,7 +59,7 @@ export class IndexComponent implements OnInit {
 
   public limit: number = 5;
   public limitOptions: number[] = [5, 10, 15, 25, 50];
-  public filter : number=1;
+  public filter : number=0;
   //public filter: string[] = ["REGULAR", "ASESOR", "VISITANTE"];
 
   /*public filter: {id:number,name:string}[] = [
@@ -99,6 +99,8 @@ export class IndexComponent implements OnInit {
     });*/
    console.log("consultando :"+this.filter);
    this.carnetService.getFilterCarnets(this.filter, this.limit, this.page).subscribe(({total,lastPage,page,carnets}) => {
+       
+
        console.log(total,lastPage,page)
        this.carnets=carnets;
        this.metaLastPage = lastPage,
@@ -146,6 +148,7 @@ export class IndexComponent implements OnInit {
   }
 
  ngOnInit(): void {
+     this.filter=0;
     this.loadCarnets();
  }
 }
