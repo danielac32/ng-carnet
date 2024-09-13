@@ -321,14 +321,15 @@ public uniqueSuffix?:string;
      console.log(exampleCarnet)
      if (this.selectedFile) {// si hay un archivo 
          this.carnetService.update(this.RealCedule??"",exampleCarnet).subscribe(response => {
-            console.log(response)
+            
             this.openSnackBar("Creando carnet", 'Cerrar');
             if (this.selectedFile && cedule){
+                console.log("enviar imagen")
                 this.carnetService.sendFile(this.selectedFile ,cedule).subscribe(response => {
                    console.log(response)
                    this.openSnackBar("Carnet actualizado", 'Cerrar');
                    //this.downloadCarnet(cedule);
-                   //window.location.reload();//
+                   //window.location.reload();// 
                    this.router.navigate(['/carnet/buscar']);
                 }, error => {
                    console.error('Error en la solicitud :sendFile ', error);
